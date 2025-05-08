@@ -8,20 +8,20 @@ Este es el frontend de la plataforma para gestión de una escuela de condicción
 - CSS
 
 ## Instalación y uso
-1. Clona el repositorio:
+### 1. Clona el repositorio:
 ``` bash
 git clone https://github.com/JonathanNavarroV/escuela-conduccion-frontend.git
 cd escuela-conduccion-frontend
 ```
-2. Instala las dependencias:
+### 2. Instala las dependencias:
 ``` bash
 npm install
 ```
-3. Levanta el proyecto:
+### 3. Levanta el proyecto:
 ``` bash
 ng serve
 ```
-4. Accede a la aplicación desde el navegador: 
+### 4. Accede a la aplicación desde el navegador: 
 `http://localhost:4200`
 
 >Nota: Asegúrate de tener configurado el backend correctamente para que las solicitudes de la API funcionen correctamente cuando estén implementadas.
