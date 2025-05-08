@@ -1,0 +1,7 @@
+.login-background {
+	background-image: url("/assets/images/background-login.jpg");
+	background-size: cover;
+	background-position: center;
+	width: 100vw;
+	height: 100vh;
+}
