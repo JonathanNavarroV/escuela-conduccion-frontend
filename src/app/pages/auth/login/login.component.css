@@ -1,0 +1,24 @@
+.bg-image {
+	position: absolute;
+	inset: 0;
+	background-image: url("/assets/images/background-login.jpg");
+	background-size: cover;
+	background-position: center;
+	filter: brightness(0.3);
+	z-index: 0;
+}
+
+.login-container {
+	width: 350px;
+}
+
+.spinner-overlay {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.5);
+	width: 100vw;
+	height: 100vh;
+	z-index: 999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
