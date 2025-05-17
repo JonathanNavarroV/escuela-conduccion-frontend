@@ -6,7 +6,15 @@ import { ErrorStateMatcher } from '@angular/material/core';
 	providedIn: 'root',
 })
 export class MyErrorStateMatcher implements ErrorStateMatcher {
-	// Se determina si el control del formulario está en estado de error
+	/**
+	 * Determina si un control de formulario se encuentra en estado error.
+	 *
+	 * Esta función evalúa si el control es inválido y si ha sido tocado, modificado o si el formulario ha sido enviado.
+	 *
+	 * @param control - Control del formulario que se está evaluando (puede ser `null`).
+	 * @param form - Formulario que contiene el control, puede ser `FormGroupDirective` o un `NgForm` (puede ser null)
+	 * @returns `true` si el control está en estado de error, de lo contrario, `false`
+	 */
 	isErrorState(
 		control: FormControl | null, // Control de formulario que se está evaluando
 		form: FormGroupDirective | NgForm | null, // Formulario que contiene el control
