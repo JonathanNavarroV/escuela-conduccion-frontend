@@ -104,9 +104,9 @@ export class LoginComponent {
 				const token = apiResponse?.data?.access_token;
 				if (token) {
 					if (rememberMe) {
-						localStorage.setItem('auth_token', token);
-					} else {
 						sessionStorage.setItem('auth_token', token);
+					} else {
+						localStorage.setItem('auth_token', token);
 					}
 					this.router.navigate(['/admin']);
 				}
