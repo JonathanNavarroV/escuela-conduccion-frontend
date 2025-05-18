@@ -125,4 +125,31 @@ export class LoginComponent {
 			this.isLoading = false;
 		}
 	}
+
+	async testSuccess() {
+		let loginRequest: LoginRequest = {
+			email: 'juan.perez@ejemplo.com',
+			password: 'contraseña.segura.123',
+		};
+		const apiResponse: ApiResponse<LoginData> = await firstValueFrom(
+			this.authService.login(loginRequest),
+		);
+
+		this.authService.clearAuthToken();
+		const token = apiResponse?.data?.access_token;
+		if (token) {
+			localStorage.setItem('auth_token', token);
+			this.router.navigate(['/admin']);
+		}
+	}
+
+	async testError() {
+		let loginRequest: LoginRequest = {
+			email: 'juan.perez@ejemplo.com',
+			password: 'contraseña.segura.321',
+		};
+		const apiResponse: ApiResponse<LoginData> = await firstValueFrom(
+			this.authService.login(loginRequest),
+		);
+	}
 }
