@@ -118,7 +118,7 @@ export class LoginComponent {
 			} else {
 				console.log('Login error:', error);
 			}
-			
+
 			this.loginForm.get('password')?.reset();
 		} finally {
 			this.isLoading = false;
