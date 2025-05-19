@@ -101,6 +101,7 @@ export class LoginComponent {
 					this.authService.login(loginRequest),
 				);
 
+				this.authService.clearAuthToken();
 				const token = apiResponse?.data?.access_token;
 				if (token) {
 					if (rememberMe) {

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { loggedGuard } from './core/guards/logged.guard';
 
 export const routes: Routes = [
 	{
@@ -10,6 +11,7 @@ export const routes: Routes = [
 		path: 'admin',
 		loadChildren: () =>
 			import('./pages/admin/admin.routes').then((m) => m.adminRoutes),
+		canActivate: [loggedGuard],
 	},
 	{
 		path: '**',
