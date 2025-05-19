@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginData } from '../models/auth/login-data.model';
 import { LoginRequest } from '../models/auth/login-request.model';
@@ -11,6 +11,7 @@ import { ApiResponse } from '../models/common/api-response.model';
 })
 export class AuthService {
 	constructor(private http: HttpClient) {}
+	private readonly tokenKey = 'auth_token';
 
 	/**
 	 * Envía una solicitud de inicio de sesión al backend para autenticar al usuario.
@@ -31,10 +32,40 @@ export class AuthService {
 	 * @returns El token JWT si está presente, o `null` si no se encuentra en ninguno de los dos almacenes.
 	 */
 	getToken(): string | null {
-		let authKey: string = 'auth_token';
+		const token =
+			localStorage.getItem(this.tokenKey) ||
+			sessionStorage.getItem(this.tokenKey);
+		return token;
+	}
 
-		return (
-			localStorage.getItem(authKey) || sessionStorage.getItem(authKey) || null
+	/**
+	 * Verifica si el usuario está autenticado validando la existencia y validez del token JWT.
+	 *
+	 * - Primero revisa si hay un token guardado en localStorage o sessionStorage.
+	 * - Luego consulta al backend para validar si el token sigue siendo válido.
+	 *
+	 * @returns {Observable<boolean>} Un Observable que emite:
+	 *   - `true` si el token existe y es válido según el backend.
+	 *   - `false` si no hay token o si el backend indica que no es válido.
+	 */
+	isAuthenticated(): Observable<boolean> {
+		const token =
+			localStorage.getItem(this.tokenKey) ||
+			sessionStorage.getItem(this.tokenKey);
+
+		if (!token) return of(false);
+
+		return this.http.get(`${environment.apiUrl}/auth/validate-token`).pipe(
+			map(() => true),
+			catchError(() => of(false)),
 		);
+	}
+
+	/**
+	 * Elimina el token de autenticación desde el localStorage y sessionStorage.
+	 */
+	clearAuthToken(): void {
+		localStorage.removeItem(this.tokenKey);
+		sessionStorage.removeItem(this.tokenKey);
 	}
 }
