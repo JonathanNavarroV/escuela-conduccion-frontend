@@ -24,4 +24,17 @@ export class AuthService {
 			loginRequest,
 		);
 	}
+
+	/**
+	 * Obtiene el token JWT almacenado en el navegador, ya sea en `localStorage` o `sessionStorage`.
+	 *
+	 * @returns El token JWT si está presente, o `null` si no se encuentra en ninguno de los dos almacenes.
+	 */
+	getToken(): string | null {
+		let authKey: string = 'auth_token';
+
+		return (
+			localStorage.getItem(authKey) || sessionStorage.getItem(authKey) || null
+		);
+	}
 }
