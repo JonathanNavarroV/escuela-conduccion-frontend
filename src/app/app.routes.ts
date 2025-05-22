@@ -1,17 +1,19 @@
 import { Routes } from '@angular/router';
-import { loggedGuard } from './core/guards/logged.guard';
+import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
 	{
 		path: '',
 		loadChildren: () =>
 			import('./pages/auth/auth.routes').then((m) => m.authRoutes),
+		canActivate: [guestGuard],
 	},
 	{
 		path: 'admin',
 		loadChildren: () =>
 			import('./pages/admin/admin.routes').then((m) => m.adminRoutes),
-		canActivate: [loggedGuard],
+		canActivate: [authGuard],
 	},
 	{
 		path: '**',
