@@ -1,0 +1,25 @@
+<div class="sidenav-header">
+	<img
+		[width]="profileImgSize()"
+		[height]="profileImgSize()"
+		src="https://yt3.googleusercontent.com/ytc/AIdro_lvA7IhwlBwglWjVEwHjzQAqyvAC9cb1Ei_U9KYCEhRVgs=s72-c-k-c0x00ffffff-no-rj"
+	/>
+	<div class="header-text" [class.hide-header-text]="collapsed()">
+		<h2>Your channel</h2>
+		<p>Yout name</p>
+	</div>
+</div>
+<mat-nav-list class="sidenav-list">
+	<!-- `#rla`: Se crea una referencia local `rla` al estado del routerLinkActive. -->
+	<a
+		mat-list-item
+		*ngFor="let item of menuItems"
+		[routerLink]="item.route"
+		routerLinkActive
+		#rla="routerLinkActive"
+		[activated]="rla.isActive"
+	>
+		<mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+		<span *ngIf="!collapsed()" matListItemTitle>{{ item.label }}</span>
+	</a>
+</mat-nav-list>

@@ -1,14 +1,21 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
 
 export const adminRoutes: Routes = [
 	{
 		path: '',
-		redirectTo: 'dashboard',
-		pathMatch: 'full',
-	},
-	{
-		path: 'dashboard',
-		component: DashboardComponent,
+		component: AdminLayoutComponent,
+		children: [
+			{
+				path: '',
+				redirectTo: 'dashboard',
+				pathMatch: 'full',
+			},
+			{
+				path: 'dashboard',
+				component: DashboardComponent,
+			},
+		],
 	},
 ];
