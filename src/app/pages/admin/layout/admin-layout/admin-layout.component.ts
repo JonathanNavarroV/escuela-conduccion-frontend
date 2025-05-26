@@ -5,31 +5,35 @@ import {
 	signal,
 	WritableSignal,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
 	selector: 'app-admin-layout',
 	standalone: true,
-	imports: [
-		SidenavComponent,
-		RouterOutlet,
-		MatIconModule,
-		MatToolbarModule,
-		MatButtonModule,
-		MatSidenavModule,
-	],
+	imports: [HeaderComponent, SidenavComponent, RouterOutlet, MatSidenavModule],
 	templateUrl: './admin-layout.component.html',
 	styleUrl: './admin-layout.component.css',
 })
 export class AdminLayoutComponent {
 	sidenavCollapsed: WritableSignal<boolean> = signal(false);
 
+	/**
+	 * Ancho dinámico del sidenav, calculado en funcón del estado `sidenavCollapsed`.
+	 * Si está colapsado, el ancho será 65px; de lo contrario, 250px.
+	 */
 	sidenavWidth: Signal<'65px' | '250px'> = computed(() =>
 		this.sidenavCollapsed() ? '65px' : '250px',
 	);
+
+	/**
+	 * Alterna el estado del sidenav entre colapsado y expandido.
+	 *
+	 * Este método invierte el valor actual de `sidenavCollapsed`, lo que a su vez actualiza automáticamente el ancho calculado `sidenavWidth`.
+	 */
+	toggleSidenav() {
+		this.sidenavCollapsed.set(!this.sidenavCollapsed());
+	}
 }

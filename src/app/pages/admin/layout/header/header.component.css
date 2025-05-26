@@ -1,0 +1,43 @@
+.header-profile-image {
+	width: 36px;
+	height: 36px;
+	object-fit: cover;
+}
+
+.menu-divider {
+	margin: 4px 0px;
+}
+
+.menu-profile-data {
+	padding: 12px 0px;
+}
+
+.menu-profile-text {
+	padding-right: 16px;
+	width: 196px;
+	white-space: nowrap;
+
+	> h2 {
+		margin: 0;
+		font-size: 1rem;
+		line-height: 1.5rem;
+		font-weight: 500;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	> p {
+		margin: 0;
+		font-size: 0.8rem;
+		font-weight: 400;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+.menu-profile-image {
+	width: 48px;
+	height: 48px;
+	object-fit: cover;
+	margin: 0px 18px;
+}

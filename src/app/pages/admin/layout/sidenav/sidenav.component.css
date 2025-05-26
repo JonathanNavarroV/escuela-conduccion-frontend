@@ -1,26 +1,31 @@
 .sidenav-header {
 	padding-top: 24px;
-	text-align: center;
 
 	> img {
-		border-radius: 100%;
 		object-fit: cover;
 		margin-bottom: 10px;
 	}
 
 	.header-text {
 		height: 3rem;
+		padding: 0px 16px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 
 		> h2 {
 			margin: 0;
 			font-size: 1rem;
 			line-height: 1.5rem;
 			font-weight: 500;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		> p {
 			margin: 0;
 			font-size: 0.8rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 	}
 
@@ -38,7 +43,6 @@ mat-icon {
 	color: red;
 }
 
-/* asdas */
 :host * {
-	transition: all 500ms ease-in-out;
+	transition: all 350ms ease-in-out;
 }

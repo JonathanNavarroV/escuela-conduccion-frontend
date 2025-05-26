@@ -1,4 +1,4 @@
-mat-toolbar {
+app-header {
 	position: relative;
 	z-index: 5;
 }
@@ -14,7 +14,7 @@ mat-sidenav {
 
 mat-sidenav,
 mat-sidenav-content {
-	transition: all 500ms ease-in-out;
+	transition: all 350ms ease-in-out;
 }
 
 .content {
