@@ -15,7 +15,7 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 	standalone: true,
 	imports: [HeaderComponent, SidenavComponent, RouterOutlet, MatSidenavModule],
 	templateUrl: './admin-layout.component.html',
-	styleUrl: './admin-layout.component.css',
+	styleUrl: './admin-layout.component.scss',
 })
 export class AdminLayoutComponent {
 	sidenavCollapsed: WritableSignal<boolean> = signal(false);

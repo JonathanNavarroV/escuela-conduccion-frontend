@@ -36,7 +36,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 		MatIconModule,
 	],
 	templateUrl: './login.component.html',
-	styleUrl: './login.component.css',
+	styleUrl: './login.component.scss',
 })
 export class LoginComponent {
 	passwordVisibility: WritableSignal<boolean>;

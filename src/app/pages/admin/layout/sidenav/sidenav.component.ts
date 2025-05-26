@@ -17,7 +17,7 @@ import { SidenavItem } from '../../../../core/models/common/sidenav-item.model';
 	standalone: true,
 	imports: [MatIconModule, MatListModule, NgFor, NgIf, RouterModule],
 	templateUrl: './sidenav.component.html',
-	styleUrl: './sidenav.component.css',
+	styleUrl: './sidenav.component.scss',
 })
 export class SidenavComponent {
 	/**
