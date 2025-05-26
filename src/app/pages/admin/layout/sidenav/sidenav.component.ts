@@ -1,0 +1,57 @@
+import { NgFor, NgIf } from '@angular/common';
+import {
+	Component,
+	computed,
+	Input,
+	Signal,
+	signal,
+	WritableSignal,
+} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
+import { SidenavItem } from '../../../../core/models/common/sidenav-item.model';
+
+@Component({
+	selector: 'app-sidenav',
+	standalone: true,
+	imports: [MatIconModule, MatListModule, NgFor, NgIf, RouterModule],
+	templateUrl: './sidenav.component.html',
+	styleUrl: './sidenav.component.css',
+})
+export class SidenavComponent {
+	/**
+	 * Controla internamente si el sidenav está colapsado (`true`) o expandido (`false`).
+	 */
+	collapsed: WritableSignal<boolean> = signal(false);
+
+	/**
+	 * Setter del `@Input()` que actualiza el estado colapsado del sidenav.
+	 * Este valor lo recibe desde el componente padre.
+	 *
+	 * @param val - Valor booleano que indica si el sidenav debe estar colapsado.
+	 */
+	@Input() set sidenavCollapsed(val: boolean) {
+		this.collapsed.set(val);
+	}
+
+	/**
+	 * Elementos que se mostrarán en el menú lateral.
+	 * Cada ítem contiene un icono, una etiqueta y una ruta asociada.
+	 */
+	menuItems: SidenavItem[] = [
+		{
+			icon: 'dashboard',
+			label: 'Dashboard',
+			route: '',
+		},
+	];
+
+	/**
+	 * Tamaño dinámico de la imagen de perfil.
+	 * Si el sidenav está colapsado, la imagen se reduce 32px; si está expandido, se muestra en 125px.
+	 */
+	profileImgSize: Signal<'32' | '125'> = computed(() =>
+		this.collapsed() ? '32' : '125',
+	);
+}

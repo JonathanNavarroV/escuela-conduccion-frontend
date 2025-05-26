@@ -1,0 +1,50 @@
+<mat-toolbar class="mat-elevation-z3">
+	<div class="w-100 d-flex justify-content-between">
+		<button mat-icon-button (click)="onToggleSidenav()">
+			<mat-icon>menu</mat-icon>
+		</button>
+
+		<!-- Botón con la imagen que abre el menú -->
+		<button
+			class="d-flex align-items-center justify-content-center"
+			mat-icon-button
+			[matMenuTriggerFor]="userMenu"
+		>
+			<img
+				class="header-profile-image rounded-circle"
+				src="https://yt3.googleusercontent.com/ytc/AIdro_lvA7IhwlBwglWjVEwHjzQAqyvAC9cb1Ei_U9KYCEhRVgs=s72-c-k-c0x00ffffff-no-rj"
+			/>
+		</button>
+
+		<!-- Menú desplegable -->
+		<mat-menu #userMenu="matMenu">
+			<div class="menu-profile-data d-flex">
+				<img
+					class="menu-profile-image rounded-circle"
+					src="https://yt3.googleusercontent.com/ytc/AIdro_lvA7IhwlBwglWjVEwHjzQAqyvAC9cb1Ei_U9KYCEhRVgs=s72-c-k-c0x00ffffff-no-rj"
+				/>
+				<div class="menu-profile-text">
+					<h2>Jonathan Damián Navarro Vega</h2>
+					<p>{{ "jonathan.d.navarro.v@gmail.com" }}</p>
+				</div>
+			</div>
+			<hr class="menu-divider" />
+			<button mat-menu-item>
+				<mat-icon>account_box</mat-icon>
+				<span>Perfil</span>
+			</button>
+			<button mat-menu-item>
+				<mat-icon>translate</mat-icon>
+				<div class="d-flex align-items-center justify-content-between">
+					<span>Idioma: Español</span>
+					<mat-icon>keyboard_arrow_right</mat-icon>
+				</div>
+			</button>
+			<hr class="menu-divider" />
+			<button mat-menu-item>
+				<mat-icon>logout</mat-icon>
+				<span>Cerrar sesión</span>
+			</button>
+		</mat-menu>
+	</div>
+</mat-toolbar>
