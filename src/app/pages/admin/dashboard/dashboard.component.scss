@@ -1,0 +1,35 @@
+.kpi-card {
+	width: 100%;
+	max-width: 250px;
+	margin: 1rem;
+	text-align: center;
+}
+
+.kpi-text {
+	text-align: left;
+
+	> h2 {
+		margin: 0;
+		font-size: 1.5rem;
+		line-height: 1.5rem;
+		font-weight: 700;
+	}
+
+	> p {
+		margin: 0;
+	}
+}
+
+.kpi-icon {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #e3f2fd;
+	width: 50px;
+	height: 50px;
+}
+
+.demo-chart {
+	height: 400px;
+}
