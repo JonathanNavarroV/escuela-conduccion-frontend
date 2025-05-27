@@ -1,0 +1,60 @@
+<div class="d-flex gap-3">
+	<div>
+		<mat-tab-group class="tab-multi-line user-select-none">
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<div class="kpi-text">
+						<p>Ventas totales</p>
+						<h2>$10.232.500</h2>
+					</div>
+				</ng-template>
+				<app-total-sales-insight></app-total-sales-insight>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<div class="kpi-text">
+						<p>Ganancias netas</p>
+						<h2>$10.232.500</h2>
+					</div>
+				</ng-template>
+				<app-net-profit-insight></app-net-profit-insight>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<div class="kpi-text">
+						<p>Curso más vendido</p>
+						<h2>Curso 1</h2>
+					</div>
+				</ng-template>
+				<app-top-course-insight></app-top-course-insight>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<div class="kpi-text">
+						<p>Nuevos usuarios</p>
+						<h2>+500</h2>
+					</div>
+				</ng-template>
+				<app-new-users-insight></app-new-users-insight>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+
+	<div>
+		<mat-form-field appearance="outline">
+			<mat-label>Rango de tiempo</mat-label>
+			<mat-select [(value)]="selectedRange">
+				<ng-container *ngFor="let group of timeRangeGroups">
+					<mat-optgroup [label]="group">
+						<mat-option
+							*ngFor="let opt of getOptionsByGroup(group)"
+							[value]="opt.value"
+						>
+							{{ opt.label }}</mat-option
+						>
+					</mat-optgroup>
+				</ng-container>
+			</mat-select>
+		</mat-form-field>
+	</div>
+</div>
