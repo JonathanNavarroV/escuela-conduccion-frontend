@@ -1,6 +1,25 @@
 <div class="d-flex flex-column gap-4">
 	<div class="row">
-		<h2>Resumen general</h2>
+		<div class="col-6">
+			<h2>Resumen general</h2>
+		</div>
+		<div class="col-6 text-end">
+			<mat-form-field appearance="outline">
+				<mat-label>Rango de tiempo</mat-label>
+				<mat-select [(value)]="selectedRange">
+					<ng-container *ngFor="let group of timeRangeGroups">
+						<mat-optgroup [label]="group">
+							<mat-option
+								*ngFor="let opt of getOptionsByGroup(group)"
+								[value]="opt.value"
+							>
+								{{ opt.label }}</mat-option
+							>
+						</mat-optgroup>
+					</ng-container>
+				</mat-select>
+			</mat-form-field>
+		</div>
 	</div>
 	<div class="row">
 		<app-dashboard-kpis></app-dashboard-kpis>
