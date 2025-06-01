@@ -8,3 +8,23 @@ body {
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+:root {
+	/* Core brand colors */
+	--primary: #2196f3;
+	--primary-light: #c8e5fc;
+	--secondary: #607d8b;
+	--secondary-light: #d7dfe2;
+	--accent: #e91e63;
+	--accent-light: #fac7d8;
+
+	/* Semantic states */
+	--success: #4caf50;
+	--success-light: #d2ebd3;
+	--warning: #ff9800;
+	--warning-light: #ffe5bf;
+	--error: #f44336;
+	--error-light: #fcd0cd;
+	--info: #009688;
+	--info-light: #bfe5e1;
+}
