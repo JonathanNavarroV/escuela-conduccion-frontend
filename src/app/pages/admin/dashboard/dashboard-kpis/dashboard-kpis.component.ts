@@ -1,13 +1,9 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TimeRangeOption } from '../../../../core/models/common/time-range-option.model';
-import { NetProfitInsightComponent } from './charts/net-profit-insight/net-profit-insight.component';
-import { NewUsersInsightComponent } from './charts/new-users-insight/new-users-insight.component';
-import { TopCourseInsightComponent } from './charts/top-course-insight/top-course-insight.component';
-import { TotalSalesInsightComponent } from './charts/total-sales-insight/total-sales-insight.component';
+import { KpiCardComponent } from './kpi-card/kpi-card.component';
 
 @Component({
 	selector: 'app-dashboard-kpis',
@@ -16,11 +12,7 @@ import { TotalSalesInsightComponent } from './charts/total-sales-insight/total-s
 		MatTabsModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		NgFor,
-		TotalSalesInsightComponent,
-		NetProfitInsightComponent,
-		TopCourseInsightComponent,
-		NewUsersInsightComponent,
+		KpiCardComponent,
 	],
 	templateUrl: './dashboard-kpis.component.html',
 	styleUrl: './dashboard-kpis.component.scss',
