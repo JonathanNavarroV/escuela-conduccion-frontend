@@ -4,8 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { TimeRangeOption } from '../../../core/models/common/time-range-option.model';
 import { DashboardKpisComponent } from './dashboard-kpis/dashboard-kpis.component';
+import { LineChartsComponent } from './line-charts/line-charts.component';
 import { TopCourseInsightComponent } from './top-course-insight/top-course-insight.component';
-import { TotalSalesInsightComponent } from './total-sales-insight/total-sales-insight.component';
 
 @Component({
 	selector: 'app-dashboard',
@@ -15,7 +15,7 @@ import { TotalSalesInsightComponent } from './total-sales-insight/total-sales-in
 		MatSelectModule,
 		NgFor,
 		DashboardKpisComponent,
-		TotalSalesInsightComponent,
+		LineChartsComponent,
 		TopCourseInsightComponent,
 	],
 	templateUrl: './dashboard.component.html',

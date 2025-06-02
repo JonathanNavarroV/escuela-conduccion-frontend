@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 import { EChartsCoreOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 @Component({
 	selector: 'app-total-sales-insight',
 	standalone: true,
-	imports: [MatCardModule, NgxEchartsModule],
+	imports: [MatCardModule, MatTabsModule, NgxEchartsModule],
 	templateUrl: './total-sales-insight.component.html',
 	styleUrl: './total-sales-insight.component.scss',
 })
