@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { TimeRangeOption } from '../../../core/models/common/time-range-option.model';
+
+import { ActionHistoryTimelineComponent } from './action-history-timeline/action-history-timeline.component';
 import { DashboardKpisComponent } from './dashboard-kpis/dashboard-kpis.component';
+import { DashboardTablesComponent } from './dashboard-tables/dashboard-tables.component';
 import { LineChartsComponent } from './line-charts/line-charts.component';
 import { TopCourseInsightComponent } from './top-course-insight/top-course-insight.component';
 
@@ -17,6 +20,8 @@ import { TopCourseInsightComponent } from './top-course-insight/top-course-insig
 		DashboardKpisComponent,
 		LineChartsComponent,
 		TopCourseInsightComponent,
+		DashboardTablesComponent,
+		ActionHistoryTimelineComponent,
 	],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',

@@ -1,12 +1,10 @@
-<div class="d-flex">
-	<div class="col-12 col-xxl-9 mat-elevation-z8">
-		<mat-tab-group class="user-select-none">
-			<mat-tab label="Alumnos registrados recientemente">
-				<app-recent-users-table></app-recent-users-table>
-			</mat-tab>
-			<mat-tab label="Cursos vendidos recientemente">
-				<app-recent-courses-table></app-recent-courses-table>
-			</mat-tab>
-		</mat-tab-group>
-	</div>
-</div>
+<mat-card>
+	<mat-tab-group class="user-select-none">
+		<mat-tab label="Alumnos registrados recientemente">
+			<app-recent-users-table></app-recent-users-table>
+		</mat-tab>
+		<mat-tab label="Cursos vendidos recientemente">
+			<app-recent-courses-table></app-recent-courses-table>
+		</mat-tab>
+	</mat-tab-group>
+</mat-card>

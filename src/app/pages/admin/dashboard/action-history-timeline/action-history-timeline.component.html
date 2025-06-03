@@ -1,0 +1,24 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title class="card-title">Historial</mat-card-title>
+		<mat-card-subtitle class="card-subtitle"
+			>Registro de eventos</mat-card-subtitle
+		>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="timeline pt-3">
+			<div class="timeline-event" *ngFor="let item of value">
+				<div class="timeline-point-content-container">
+					<div class="timeline-point"></div>
+					<div class="timeline-content">
+						<span class="timeline-date">{{
+							item.date | date: "dd/MM/yyyy - hh:mm"
+						}}</span>
+						<span>{{ item.content }}</span>
+					</div>
+				</div>
+				<div class="timeline-track"></div>
+			</div>
+		</div>
+	</mat-card-content>
+</mat-card>
