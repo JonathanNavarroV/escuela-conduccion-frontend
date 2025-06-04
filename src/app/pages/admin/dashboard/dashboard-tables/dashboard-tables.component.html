@@ -1,10 +1,30 @@
 <mat-card>
 	<mat-tab-group class="user-select-none">
 		<mat-tab label="Alumnos registrados recientemente">
-			<app-recent-users-table></app-recent-users-table>
+			<mat-card-header>
+				<mat-card-title class="card-title"
+					>Alumnos registrados recientemente</mat-card-title
+				>
+				<mat-card-subtitle class="card-subtitle"
+					>Listado de los últimos alumnos registrados</mat-card-subtitle
+				>
+			</mat-card-header>
+			<mat-card-content>
+				<app-recent-users-table></app-recent-users-table>
+			</mat-card-content>
 		</mat-tab>
 		<mat-tab label="Cursos vendidos recientemente">
-			<app-recent-courses-table></app-recent-courses-table>
+			<mat-card-header>
+				<mat-card-title class="card-title"
+					>Cursos vendidos recientemente</mat-card-title
+				>
+				<mat-card-subtitle class="card-subtitle"
+					>Listado de los últimos cursos vendidos</mat-card-subtitle
+				>
+			</mat-card-header>
+			<mat-card-content>
+				<app-recent-courses-table></app-recent-courses-table>
+			</mat-card-content>
 		</mat-tab>
 	</mat-tab-group>
 </mat-card>

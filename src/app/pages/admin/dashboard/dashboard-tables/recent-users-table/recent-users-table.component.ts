@@ -49,30 +49,6 @@ export class RecentUsersTableComponent {
 			email: 'jonathan.d.navarro.v@gmail.com',
 			registrationDate: new Date(new Date().toISOString()),
 		},
-		{
-			id: 'a7',
-			fullName: 'Jonathan Damián Navarro Vega',
-			email: 'jonathan.d.navarro.v@gmail.com',
-			registrationDate: new Date(new Date().toISOString()),
-		},
-		{
-			id: 'a8',
-			fullName: 'Jonathan Damián Navarro Vega',
-			email: 'jonathan.d.navarro.v@gmail.com',
-			registrationDate: new Date(new Date().toISOString()),
-		},
-		{
-			id: 'a9',
-			fullName: 'Jonathan Damián Navarro Vega',
-			email: 'jonathan.d.navarro.v@gmail.com',
-			registrationDate: new Date(new Date().toISOString()),
-		},
-		{
-			id: 'a10',
-			fullName: 'Jonathan Damián Navarro Vega',
-			email: 'jonathan.d.navarro.v@gmail.com',
-			registrationDate: new Date(new Date().toISOString()),
-		},
 	];
 
 	displayedColumns: string[] = ['fullName', 'email', 'registrationDate'];
