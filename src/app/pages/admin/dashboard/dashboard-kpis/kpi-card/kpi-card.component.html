@@ -1,0 +1,16 @@
+<mat-card class="kpi-card">
+	<mat-card-content>
+		<div class="d-flex flex-column gap-3 align-items-center">
+			<div
+				class="kpi-icon-circle d-flex justify-content-center align-items-center rounded-circle"
+				[ngStyle]="{ 'background-color': 'var(' + kpiIconColor + ')' }"
+			>
+				<mat-icon [ngStyle]="{ color: 'var(' + kpiCircleColor + ')' }">{{
+					kpiIcon
+				}}</mat-icon>
+			</div>
+			<h2 class="kpi-text">{{ kpiValue }}</h2>
+			<p class="kpi-text">{{ kpiText }}</p>
+		</div>
+	</mat-card-content>
+</mat-card>

@@ -1,0 +1,37 @@
+<mat-card>
+	<mat-tab-group class="user-select-none">
+		<mat-tab label="Ventas totales">
+			<mat-card-header>
+				<mat-card-title class="card-title">Ventas totales</mat-card-title>
+				<mat-card-subtitle class="card-subtitle"
+					>Ingresos totales por ventas</mat-card-subtitle
+				>
+			</mat-card-header>
+			<mat-card-content>
+				<app-total-sales-insight></app-total-sales-insight>
+			</mat-card-content>
+		</mat-tab>
+		<mat-tab label="Beneficios netos">
+			<mat-card-header>
+				<mat-card-title class="card-title">Beneficios netos</mat-card-title>
+				<mat-card-subtitle class="card-subtitle"
+					>Beneficio neto tras costos</mat-card-subtitle
+				>
+			</mat-card-header>
+			<mat-card-content>
+				<app-net-profit-insight></app-net-profit-insight>
+			</mat-card-content>
+		</mat-tab>
+		<mat-tab label="Nuevos usuarios">
+			<mat-card-header>
+				<mat-card-title class="card-title">Nuevos usuarios</mat-card-title>
+				<mat-card-subtitle class="card-subtitle"
+					>Usuarios nuevos en la plataforma</mat-card-subtitle
+				>
+			</mat-card-header>
+			<mat-card-content>
+				<app-new-users-insight></app-new-users-insight>
+			</mat-card-content>
+		</mat-tab>
+	</mat-tab-group>
+</mat-card>

@@ -1,0 +1,44 @@
+.card-title {
+	font-size: 24px;
+	font-weight: 400;
+}
+
+.card-subtitle {
+	font-size: 16px;
+	font-weight: 400;
+	color: gray;
+}
+
+.timeline-point-content-container {
+	display: flex;
+	align-items: center;
+}
+
+.timeline-content {
+	display: flex;
+	flex-direction: column;
+	padding: 0 1rem;
+}
+
+.timeline-point {
+	width: 1rem;
+	height: 1rem;
+	border: 3px solid var(--primary);
+	border-radius: 50%;
+}
+
+.timeline-track {
+	width: 2px;
+	height: 25px;
+	background-color: var(--secondary-light);
+	margin-left: 0.45rem;
+}
+
+.timeline-event:last-child > .timeline-track {
+	height: 0;
+}
+
+.timeline-date {
+	font-size: 14px;
+	font-style: italic;
+}
