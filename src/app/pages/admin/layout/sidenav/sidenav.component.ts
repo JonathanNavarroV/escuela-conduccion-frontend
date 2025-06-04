@@ -42,8 +42,13 @@ export class SidenavComponent {
 	menuItems: SidenavItem[] = [
 		{
 			icon: 'dashboard',
-			label: 'Dashboard',
-			route: '',
+			label: 'Panel general',
+			route: 'dashboard',
+		},
+		{
+			icon: 'group',
+			label: 'Usuarios',
+			route: 'users',
 		},
 	];
 
