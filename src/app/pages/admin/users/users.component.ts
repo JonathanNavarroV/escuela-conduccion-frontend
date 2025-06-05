@@ -43,7 +43,7 @@ export class UsersComponent {
 	 * Referencia al componente de paginación de Angular Material.
 	 * Se vincula al datasource en `ngAfterViewInit`.
 	 */
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
+	@ViewChild(MatPaginator) paginator?: MatPaginator;
 
 	constructor(private userService: UserService) {}
 
@@ -52,17 +52,41 @@ export class UsersComponent {
 	}
 
 	ngAfterViewInit(): void {
-		this.dataSource.paginator = this.paginator;
+		if (this.paginator) {
+			this.dataSource.paginator = this.paginator;
+		}
 	}
 
 	/**
-	 * Obtiene la lista de usuarios desde el servicio `UserService`
+	 * Obtiene la lista completa de usuarios desde el servicio `UserService`
 	 * y actualiza la tabla con los datos recibidos.
+	 *
+	 * @returns {Promise<void>} Promesa que se resuelve cuando la lista de usuarios es actualizada.
 	 */
 	async getUsers(): Promise<void> {
 		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
 			this.userService.getUsers(),
 		);
 		this.users = apiResponse.data;
+	}
+
+	/**
+	 * Obtiene la lista de usuarios filtrada por el nombre completo recibido
+	 * desde el evento del input y actualiza la tabla con los datos recibidos.
+	 * Si el texto del input está vacío, recupera la lista completa de usuarios.
+	 *
+	 * @param {Event} event - Evento disparado al modificar el valor del input de búsqueda.
+	 * @returns {Promise<void>} Promesa que se resuelve cuando la lista de usuarios es actualizada.
+	 */
+	async getUsersByFullName(event: Event): Promise<void> {
+		const fullName = (event.target as HTMLInputElement).value;
+
+		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
+			this.userService.getUsersByFullName(fullName),
+		);
+		this.users = apiResponse.data;
+		if (fullName.length === 0) {
+			this.getUsers();
+		}
 	}
 }
