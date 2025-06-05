@@ -11,7 +11,7 @@
 			<div class="d-flex justify-content-between">
 				<mat-form-field appearance="outline">
 					<mat-label>Buscar</mat-label>
-					<input matInput type="search" />
+					<input matInput type="search" (input)="getUsersByFullName($event)" />
 					<button matPrefix mat-icon-button>
 						<mat-icon>search</mat-icon>
 					</button>
