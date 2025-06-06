@@ -34,4 +34,15 @@ export class UserService {
 			},
 		);
 	}
+
+	/**
+	 * Obtiene la lista de roles disponibles para los usuarios desde el backend.
+	 *
+	 * @returns {Observable<ApiResponse<string[]>>} Observable que emite la respuesta con la lista de roles disponibles.
+	 */
+	getRoles(): Observable<ApiResponse<Array<string>>> {
+		return this.http.get<ApiResponse<Array<string>>>(
+			`${environment.apiUrl}/users/roles`,
+		);
+	}
 }
