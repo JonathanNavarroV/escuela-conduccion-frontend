@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +12,7 @@ import { firstValueFrom } from 'rxjs';
 import { ApiResponse } from '../../../core/models/common/api-response.model';
 import { User } from '../../../core/models/users/user.model';
 import { UserService } from '../../../core/services/user.service';
+import { CreateUserDialogComponent } from './dialogs/create-user-dialog/create-user-dialog.component';
 
 @Component({
 	selector: 'app-users',
@@ -45,12 +47,20 @@ export class UsersComponent {
 	 */
 	@ViewChild(MatPaginator) paginator?: MatPaginator;
 
+	dialog = inject(MatDialog);
+
 	constructor(private userService: UserService) {}
 
 	ngOnInit(): void {
 		this.getUsers();
 	}
 
+	/**
+	 * Se ejecuta después de que la vista del componente ha sido inicializada.
+	 * Asocia el paginador de Angular Material al dataSource de la tabla para habilitar la paginación.
+	 *
+	 * @returns {void} No retorna ningún valor.
+	 */
 	ngAfterViewInit(): void {
 		if (this.paginator) {
 			this.dataSource.paginator = this.paginator;
@@ -88,5 +98,15 @@ export class UsersComponent {
 		if (fullName.length === 0) {
 			this.getUsers();
 		}
+	}
+
+	/**
+	 * Abre el diálogo para la creación de un nuevo usuario.
+	 */
+	openCreateUserDialog(): void {
+		this.dialog.open(CreateUserDialogComponent, {
+			minWidth: '720px',
+			width: '720px',
+		});
 	}
 }
