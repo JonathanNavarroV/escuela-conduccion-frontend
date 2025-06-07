@@ -9,7 +9,9 @@ import { ApiResponse } from '../../../core/models/common/api-response.model';
 import { User } from '../../../core/models/users/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
+import { ConfirmActionDialogComponent } from '../../../shared/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { CreateUserDialogComponent } from './dialogs/create-user-dialog/create-user-dialog.component';
+import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-user-dialog.component';
 
 @Component({
 	selector: 'app-users',
@@ -87,7 +89,7 @@ export class UsersComponent {
 	 * Abre el diálogo para la modificación de un usuario.
 	 */
 	openUpdateUserDialog(): void {
-		this.dialog.open(CreateUserDialogComponent, {
+		this.dialog.open(UpdateUserDialogComponent, {
 			minWidth: '720px',
 			width: '720px',
 		});
@@ -97,7 +99,7 @@ export class UsersComponent {
 	 * Abre el diálogo para la confirmación de eliminación de un usuario.
 	 */
 	openConfirmDeleteDialog(): void {
-		this.dialog.open(CreateUserDialogComponent, {
+		this.dialog.open(ConfirmActionDialogComponent, {
 			minWidth: '720px',
 			width: '720px',
 		});
