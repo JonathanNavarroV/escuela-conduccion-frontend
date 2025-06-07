@@ -25,21 +25,30 @@ import { CreateUserDialogComponent } from './dialogs/create-user-dialog/create-u
 	styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-	usersDataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
-
+	/**
+	 * Referencia al servicio de diálogos de Angular Material.
+	 */
 	dialog = inject(MatDialog);
+
+	/**
+	 * Fuente de datos que alimenta la tabla de usuarios.
+	 * Se actualiza al obtener datos desde el servicio.
+	 */
+	usersDataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
 	constructor(private userService: UserService) {}
 
+	/**
+	 * Carga inicialmente todos los usuarios.
+	 */
 	ngOnInit(): void {
 		this.getUsers();
 	}
 
 	/**
-	 * Obtiene la lista completa de usuarios desde el servicio `UserService`
-	 * y actualiza la tabla con los datos recibidos.
+	 * Obtiene todos los usuarios desde el backend y actualiza el dataSource de la tabla.
 	 *
-	 * @returns {Promise<void>} Promesa que se resuelve cuando la lista de usuarios es actualizada.
+	 * @returns {Promise<void>} Una promesa que resuelve cuando los datos han sido cargados.
 	 */
 	async getUsers(): Promise<void> {
 		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
@@ -49,12 +58,11 @@ export class UsersComponent {
 	}
 
 	/**
-	 * Obtiene la lista de usuarios filtrada por el nombre completo recibido
-	 * desde el evento del input y actualiza la tabla con los datos recibidos.
-	 * Si el texto del input está vacío, recupera la lista completa de usuarios.
+	 * Busca usuarios por nombre completo utilizando el servicio.
+	 * Si el input está vacío, vuelve a cargar todos los usuarios.
 	 *
-	 * @param {Event} event - Evento disparado al modificar el valor del input de búsqueda.
-	 * @returns {Promise<void>} Promesa que se resuelve cuando la lista de usuarios es actualizada.
+	 * @param {string} fullName - Nombre completo usado como criterio de búsqueda.
+	 * @returns {Promise<void>} Una promesa que resuelve cuando la búsqueda ha terminado.
 	 */
 	async getUsersByFullName(fullName: string): Promise<void> {
 		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
@@ -75,9 +83,8 @@ export class UsersComponent {
 			width: '720px',
 		});
 	}
-
 	/**
-	 * Abre el diálogo para la creación de un nuevo usuario.
+	 * Abre el diálogo para la modificación de un usuario.
 	 */
 	openUpdateUserDialog(): void {
 		this.dialog.open(CreateUserDialogComponent, {
@@ -87,7 +94,7 @@ export class UsersComponent {
 	}
 
 	/**
-	 * Abre el diálogo para la creación de un nuevo usuario.
+	 * Abre el diálogo para la confirmación de eliminación de un usuario.
 	 */
 	openConfirmDeleteDialog(): void {
 		this.dialog.open(CreateUserDialogComponent, {
