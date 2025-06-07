@@ -30,13 +30,44 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 	styleUrl: './data-table.component.scss',
 })
 export class DataTableComponent<T> {
+	/**
+	 * Placeholder opcional para el campo de búsqueda.
+	 */
 	@Input() searchPlaceholder?: string;
+
+	/**
+	 * Template opcional para mostrar acciones personalizadas en la cabecera, al lado del buscador.
+	 */
 	@Input() headerActionsTemplate?: TemplateRef<any>;
+
+	/**
+	 * Fuente de datos que será usada por la tabla.
+	 * Debe ser una instancia de MatTableDataSource.
+	 */
 	@Input() dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
+
+	/**
+	 * Lista de definiciones de columnas.
+	 * Cada columna debe tener al menos un identificador `def` y un encabezado `header`.
+	 */
 	@Input() columns: Array<{ def: string; header: string }> = [];
+
+	/**
+	 * Lista de columnas que serán mostradas en el orden definido.
+	 * Cada elemento debe coincidir con el `def` de alguna columna.
+	 */
 	@Input() displayedColumns: Array<string> = [];
+
+	/**
+	 * Diccionario de templates personalizados por columna.
+	 * La clave es el `def` de la columna, y el valor un TemplateRef.
+	 */
 	@Input() customTemplates: { [columnDef: string]: TemplateRef<any> } = {};
 
+	/**
+	 * Evento que se emite cada vez que cambia el valor del campo de búsqueda.
+	 * El string emitido representa el texto ingresado.
+	 */
 	@Output() searchChanged = new EventEmitter<string>();
 
 	/**
