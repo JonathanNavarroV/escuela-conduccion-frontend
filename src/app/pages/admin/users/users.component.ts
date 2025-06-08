@@ -85,6 +85,7 @@ export class UsersComponent {
 			width: '720px',
 		});
 	}
+
 	/**
 	 * Abre el diálogo para la modificación de un usuario.
 	 */
