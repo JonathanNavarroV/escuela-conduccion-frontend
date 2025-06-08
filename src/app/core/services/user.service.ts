@@ -9,7 +9,7 @@ import { User } from '../models/users/user.model';
 	providedIn: 'root',
 })
 export class UserService {
-	constructor(private http: HttpClient) {}
+	constructor(private readonly http: HttpClient) {}
 
 	/**
 	 * Obtiene la lista completa de usuarios desde el backend.
