@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/common/api-response.model';
+import { CreateUserDto } from '../models/users/user-dto.model';
 import { User } from '../models/users/user.model';
 
 @Injectable({
@@ -43,6 +44,19 @@ export class UserService {
 	getRoles(): Observable<ApiResponse<Array<string>>> {
 		return this.http.get<ApiResponse<Array<string>>>(
 			`${environment.apiUrl}/users/roles`,
+		);
+	}
+
+	/**
+	 * Crear un nuevo usuario.
+	 *
+	 * @param createUserDto - Objeto que contiene los datos del nuevo usuario a crear.
+	 * @returns Un `Observable` que emite la respuesta del servidor, la cual incluye el usuario creado.
+	 */
+	createUser(createUserDto: CreateUserDto): Observable<ApiResponse<User>> {
+		return this.http.post<ApiResponse<User>>(
+			`${environment.apiUrl}/users`,
+			createUserDto,
 		);
 	}
 }
