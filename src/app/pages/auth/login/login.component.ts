@@ -39,27 +39,22 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 	styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-	passwordVisibility: WritableSignal<boolean>;
-
 	loginForm: FormGroup;
 
-	isLoading: boolean;
+	passwordVisibility: WritableSignal<boolean> = signal(true);
+	isLoading: boolean = false;
 
 	constructor(
-		private formBuilder: FormBuilder,
-		private authService: AuthService,
-		private snackbar: SnackbarService,
-		private router: Router,
+		private readonly formBuilder: FormBuilder,
+		private readonly authService: AuthService,
+		private readonly snackbar: SnackbarService,
+		private readonly router: Router,
 	) {
-		this.passwordVisibility = signal(true);
-
 		this.loginForm = this.formBuilder.group({
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 			rememberMe: [false],
 		});
-
-		this.isLoading = false;
 	}
 
 	/**

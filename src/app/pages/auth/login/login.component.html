@@ -17,48 +17,55 @@
 					<div class="pb-3">
 						<span>Inicia sesión con tu cuenta</span>
 					</div>
-					<!-- Email -->
-					<mat-form-field appearance="outline" class="w-100">
-						<mat-label>Email</mat-label>
-						<input matInput formControlName="email" type="email" />
-						<mat-error *ngIf="loginForm.get('email')?.hasError('required')"
-							>Campo requerido</mat-error
-						>
-						<mat-error *ngIf="loginForm.get('email')?.hasError('email')"
-							>Email inválido</mat-error
-						>
-					</mat-form-field>
-					<!-- Password -->
-					<mat-form-field appearance="outline" class="w-100">
-						<mat-label>Contraseña</mat-label>
-						<input
-							matInput
-							formControlName="password"
-							[type]="passwordVisibility() ? 'password' : 'text'"
-						/>
-						<button
-							mat-icon-button
-							matSuffix
-							type="button"
-							(click)="togglePasswordVisibility($event)"
-							[attr.aria-label]="'Hide password'"
-							[attr.aria-pressed]="passwordVisibility()"
-						>
-							<mat-icon>{{
-								passwordVisibility() ? "visibility_off" : "visibility"
-							}}</mat-icon>
-						</button>
-						<mat-error *ngIf="loginForm.get('password')?.hasError('required')"
-							>Campo requerido</mat-error
-						>
-						<mat-error *ngIf="loginForm.get('password')?.hasError('minlength')"
-							>La contraseña debe tener al menos
-							{{
-								loginForm.get("password")?.errors?.["minlength"]?.requiredLength
-							}}
-							caracteres.</mat-error
-						>
-					</mat-form-field>
+
+					<div class="d-flex flex-column gap-2">
+						<!-- Email -->
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Email</mat-label>
+							<input matInput formControlName="email" type="email" />
+							<mat-error *ngIf="loginForm.get('email')?.hasError('required')"
+								>Campo requerido</mat-error
+							>
+							<mat-error *ngIf="loginForm.get('email')?.hasError('email')"
+								>Email inválido</mat-error
+							>
+						</mat-form-field>
+
+						<!-- Password -->
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Contraseña</mat-label>
+							<input
+								matInput
+								formControlName="password"
+								[type]="passwordVisibility() ? 'password' : 'text'"
+							/>
+							<button
+								mat-icon-button
+								matSuffix
+								type="button"
+								(click)="togglePasswordVisibility($event)"
+								[attr.aria-label]="'Hide password'"
+								[attr.aria-pressed]="passwordVisibility()"
+							>
+								<mat-icon>{{
+									passwordVisibility() ? "visibility_off" : "visibility"
+								}}</mat-icon>
+							</button>
+							<mat-error *ngIf="loginForm.get('password')?.hasError('required')"
+								>Campo requerido</mat-error
+							>
+							<mat-error
+								*ngIf="loginForm.get('password')?.hasError('minlength')"
+								>La contraseña debe tener al menos
+								{{
+									loginForm.get("password")?.errors?.["minlength"]
+										?.requiredLength
+								}}
+								caracteres.</mat-error
+							>
+						</mat-form-field>
+					</div>
+
 					<!-- Remember me -->
 					<mat-checkbox formControlName="rememberMe" class="pb-3">
 						Mantener sesión iniciada
