@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
 export class BranchService {
 	private readonly http = inject(HttpClient);
 
-	getBranches(): Observable<ApiResponse<Branch[]>> {
+	public getBranches(): Observable<ApiResponse<Branch[]>> {
 		return this.http.get<ApiResponse<Branch[]>>(
 			`${environment.apiUrl}/branches`,
 		);

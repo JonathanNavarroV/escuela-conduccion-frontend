@@ -11,10 +11,10 @@ import { MatIcon } from '@angular/material/icon';
 	styleUrl: './kpi-card.component.scss',
 })
 export class KpiCardComponent {
-	@Input() kpiIcon = '';
-	@Input() kpiValue = '';
-	@Input() kpiText = '';
+	@Input() public kpiIcon = '';
+	@Input() public kpiValue = '';
+	@Input() public kpiText = '';
 
-	@Input() kpiCircleColor = '--primary';
-	@Input() kpiIconColor = '--primary-light';
+	@Input() public kpiCircleColor = '--primary';
+	@Input() public kpiIconColor = '--primary-light';
 }

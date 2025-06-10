@@ -11,7 +11,7 @@ import { RecentCourse } from '../../../../../core/models/dashboard/recent-course
 	styleUrl: './recent-courses-table.component.scss',
 })
 export class RecentCoursesTableComponent {
-	recentCourses: RecentCourse[] = [
+	protected recentCourses: RecentCourse[] = [
 		{
 			id: 'a1',
 			courseName: 'Curso 1',
@@ -56,7 +56,7 @@ export class RecentCoursesTableComponent {
 		},
 	];
 
-	displayedColumns: string[] = [
+	protected displayedColumns: string[] = [
 		'courseName',
 		'saleAmount',
 		'soldDate',

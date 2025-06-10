@@ -23,7 +23,7 @@ export class SidenavComponent {
 	/**
 	 * Controla internamente si el sidenav está colapsado (`true`) o expandido (`false`).
 	 */
-	collapsed: WritableSignal<boolean> = signal(false);
+	protected collapsed: WritableSignal<boolean> = signal(false);
 
 	/**
 	 * Setter del `@Input()` que actualiza el estado colapsado del sidenav.
@@ -31,7 +31,7 @@ export class SidenavComponent {
 	 *
 	 * @param val - Valor booleano que indica si el sidenav debe estar colapsado.
 	 */
-	@Input() set sidenavCollapsed(val: boolean) {
+	@Input() public set sidenavCollapsed(val: boolean) {
 		this.collapsed.set(val);
 	}
 
@@ -39,7 +39,7 @@ export class SidenavComponent {
 	 * Elementos que se mostrarán en el menú lateral.
 	 * Cada ítem contiene un icono, una etiqueta y una ruta asociada.
 	 */
-	menuItems: SidenavItem[] = [
+	protected menuItems: SidenavItem[] = [
 		{
 			icon: 'dashboard',
 			label: 'Panel general',
@@ -56,7 +56,7 @@ export class SidenavComponent {
 	 * Tamaño dinámico de la imagen de perfil.
 	 * Si el sidenav está colapsado, la imagen se reduce 32px; si está expandido, se muestra en 125px.
 	 */
-	profileImgSize: Signal<'32' | '125'> = computed(() =>
+	protected profileImgSize: Signal<'32' | '125'> = computed(() =>
 		this.collapsed() ? '32' : '125',
 	);
 }

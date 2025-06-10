@@ -17,7 +17,7 @@ export class UserService {
 	 *
 	 * @returns {Observable<ApiResponse<User[]>>} Observable que emite la respuesta con la lista de usuarios.
 	 */
-	getUsers(): Observable<ApiResponse<User[]>> {
+	public getUsers(): Observable<ApiResponse<User[]>> {
 		return this.http.get<ApiResponse<User[]>>(`${environment.apiUrl}/users`);
 	}
 
@@ -27,7 +27,7 @@ export class UserService {
 	 * @param {string} fullName - Texto para buscar coincidencias en el nombre completo.
 	 * @returns {Observable<ApiResponse<User[]>>} Observable que emite la respuesta con la lista de usuarios encontrados.
 	 */
-	getUsersByFullName(fullName: string) {
+	public getUsersByFullName(fullName: string) {
 		return this.http.get<ApiResponse<User[]>>(
 			`${environment.apiUrl}/users/search`,
 			{
@@ -41,7 +41,7 @@ export class UserService {
 	 *
 	 * @returns {Observable<ApiResponse<string[]>>} Observable que emite la respuesta con la lista de roles disponibles.
 	 */
-	getRoles(): Observable<ApiResponse<string[]>> {
+	public getRoles(): Observable<ApiResponse<string[]>> {
 		return this.http.get<ApiResponse<string[]>>(
 			`${environment.apiUrl}/users/roles`,
 		);
@@ -53,7 +53,9 @@ export class UserService {
 	 * @param createUserDto - Objeto que contiene los datos del nuevo usuario a crear.
 	 * @returns Un `Observable` que emite la respuesta del servidor, la cual incluye el usuario creado.
 	 */
-	createUser(createUserDto: CreateUserDto): Observable<ApiResponse<User>> {
+	public createUser(
+		createUserDto: CreateUserDto,
+	): Observable<ApiResponse<User>> {
 		return this.http.post<ApiResponse<User>>(
 			`${environment.apiUrl}/users`,
 			createUserDto,

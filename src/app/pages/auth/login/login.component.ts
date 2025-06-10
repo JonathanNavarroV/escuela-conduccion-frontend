@@ -44,12 +44,12 @@ export class LoginComponent {
 	private readonly snackbar = inject(SnackbarService);
 	private readonly router = inject(Router);
 
-	loginForm: FormGroup;
+	public loginForm: FormGroup;
 
-	passwordVisibility: WritableSignal<boolean> = signal(true);
-	isLoading = false;
+	public passwordVisibility: WritableSignal<boolean> = signal(true);
+	public isLoading = false;
 
-	constructor() {
+	public constructor() {
 		this.loginForm = this.formBuilder.group({
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
@@ -63,7 +63,7 @@ export class LoginComponent {
 	 *
 	 * @param event - Evento del mouse que activó la acción. Se usa `stopPropagation()` para evitar que el evento se propage a elementos padres.
 	 */
-	togglePasswordVisibility(event: MouseEvent): void {
+	public togglePasswordVisibility(event: MouseEvent): void {
 		this.passwordVisibility.set(!this.passwordVisibility());
 		event.stopPropagation();
 	}
@@ -80,7 +80,7 @@ export class LoginComponent {
 	 *
 	 * @returns {Promise<void>}
 	 */
-	async onSubmit(): Promise<void> {
+	public async onSubmit(): Promise<void> {
 		this.isLoading = true;
 		try {
 			if (this.loginForm.valid) {
@@ -122,7 +122,7 @@ export class LoginComponent {
 		}
 	}
 
-	async testSuccess() {
+	public async testSuccess() {
 		const loginRequest: LoginRequest = {
 			email: 'juan.perez@ejemplo.com',
 			password: 'contraseña.segura.123',
@@ -139,7 +139,7 @@ export class LoginComponent {
 		}
 	}
 
-	async testError() {
+	public async testError() {
 		const loginRequest: LoginRequest = {
 			email: 'juan.perez@ejemplo.com',
 			password: 'contraseña.segura.321',

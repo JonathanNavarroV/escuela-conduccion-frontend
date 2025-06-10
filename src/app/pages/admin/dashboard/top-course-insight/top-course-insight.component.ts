@@ -11,7 +11,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 	styleUrl: './top-course-insight.component.scss',
 })
 export class TopCourseInsightComponent {
-	chartOption: EChartsCoreOption = {
+	protected chartOption: EChartsCoreOption = {
 		tooltip: {
 			trigger: 'item',
 		},

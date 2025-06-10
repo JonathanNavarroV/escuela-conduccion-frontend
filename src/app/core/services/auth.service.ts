@@ -20,7 +20,7 @@ export class AuthService {
 	 * @param loginRequest - Objeto con las credenciales del usuario (correo, contraseña y opción de "recordarme").
 	 * @returns Un observable que emite un ApiResponse con los datos de autenticación (token JWT con los datos del usuario)
 	 */
-	login(loginRequest: LoginRequest): Observable<ApiResponse<LoginData>> {
+	public login(loginRequest: LoginRequest): Observable<ApiResponse<LoginData>> {
 		return this.http.post<ApiResponse<LoginData>>(
 			`${environment.apiUrl}/auth/login`,
 			loginRequest,
@@ -32,7 +32,7 @@ export class AuthService {
 	 *
 	 * @returns El token JWT si está presente, o `null` si no se encuentra en ninguno de los dos almacenes.
 	 */
-	getToken(): string | null {
+	public getToken(): string | null {
 		const token =
 			localStorage.getItem(this.tokenKey) ||
 			sessionStorage.getItem(this.tokenKey);
@@ -49,7 +49,7 @@ export class AuthService {
 	 *   - `true` si el token existe y es válido según el backend.
 	 *   - `false` si no hay token o si el backend indica que no es válido.
 	 */
-	isAuthenticated(): Observable<boolean> {
+	public isAuthenticated(): Observable<boolean> {
 		const token =
 			localStorage.getItem(this.tokenKey) ||
 			sessionStorage.getItem(this.tokenKey);
@@ -65,7 +65,7 @@ export class AuthService {
 	/**
 	 * Elimina el token de autenticación desde el localStorage y sessionStorage.
 	 */
-	clearAuthToken(): void {
+	public clearAuthToken(): void {
 		localStorage.removeItem(this.tokenKey);
 		sessionStorage.removeItem(this.tokenKey);
 	}

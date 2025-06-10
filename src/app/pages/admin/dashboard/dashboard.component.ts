@@ -27,7 +27,7 @@ import { TopCourseInsightComponent } from './top-course-insight/top-course-insig
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-	timeRanges: TimeRangeOption[] = [
+	private timeRanges: TimeRangeOption[] = [
 		{ label: 'Últimos 7 días', value: 'last7', group: 'Relativos' },
 		{ label: 'Últimos 30 días', value: 'last30', group: 'Relativos' },
 		{ label: 'Últimos 90 días', value: 'last90', group: 'Relativos' },
@@ -41,13 +41,13 @@ export class DashboardComponent {
 		{ label: '2024', value: '2024', group: 'Años' },
 	];
 
-	selectedRange = 'last7';
+	protected selectedRange = 'last7';
 
-	get timeRangeGroups(): string[] {
+	protected get timeRangeGroups(): string[] {
 		return [...new Set(this.timeRanges.map((opt) => opt.group))];
 	}
 
-	getOptionsByGroup(group: string): TimeRangeOption[] {
+	protected getOptionsByGroup(group: string): TimeRangeOption[] {
 		return this.timeRanges.filter((opt) => opt.group === group);
 	}
 }

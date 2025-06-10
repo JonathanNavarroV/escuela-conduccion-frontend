@@ -42,9 +42,9 @@ export class CreateUserDialogComponent implements OnInit {
 	private readonly branchService = inject(BranchService);
 	private readonly dialogRef = inject(MatDialogRef<CreateUserDialogComponent>);
 
-	createUserForm: FormGroup;
+	protected createUserForm: FormGroup;
 
-	constructor() {
+	public constructor() {
 		this.createUserForm = this.formBuilder.group({
 			firstName: ['', [Validators.required]],
 			lastNameFather: ['', [Validators.required]],
@@ -57,13 +57,13 @@ export class CreateUserDialogComponent implements OnInit {
 		});
 	}
 
-	roles?: string[];
-	branches?: Branch[];
+	protected roles?: string[];
+	protected branches?: Branch[];
 
 	/**
 	 * Carga inicialmente todos los roles.
 	 */
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		this.loadRoles();
 		this.loadBranches();
 	}
@@ -71,7 +71,7 @@ export class CreateUserDialogComponent implements OnInit {
 	/**
 	 * Carga la lista de roles disponibles desde el servicio y la asigna a la propiedad local.
 	 */
-	async loadRoles(): Promise<void> {
+	private async loadRoles(): Promise<void> {
 		const apiResponse: ApiResponse<string[]> = await firstValueFrom(
 			this.userService.getRoles(),
 		);
@@ -82,7 +82,7 @@ export class CreateUserDialogComponent implements OnInit {
 	/**
 	 * Carga la lista de sedes disponibles desde el servicio y la asigna a la propiedad local.
 	 */
-	async loadBranches(): Promise<void> {
+	private async loadBranches(): Promise<void> {
 		const apiResponse: ApiResponse<Branch[]> = await firstValueFrom(
 			this.branchService.getBranches(),
 		);
@@ -99,7 +99,7 @@ export class CreateUserDialogComponent implements OnInit {
 	 * - Elimina el valor de `photo` si viene vacío (lo convierte a `undefined` para que pase la validación del backend).
 	 * - Cierra el diálogo y retorna el DTO al componente padre.
 	 */
-	onSubmit(): void {
+	protected onSubmit(): void {
 		// Mostrar errores de controles
 		if (this.createUserForm.invalid) {
 			this.createUserForm.markAllAsTouched();

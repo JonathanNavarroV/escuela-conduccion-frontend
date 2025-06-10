@@ -33,18 +33,19 @@ export class UsersComponent implements OnInit {
 	/**
 	 * Referencia al servicio de diálogos de Angular Material.
 	 */
-	dialog = inject(MatDialog);
+	private dialog = inject(MatDialog);
 
 	/**
 	 * Fuente de datos que alimenta la tabla de usuarios.
 	 * Se actualiza al obtener datos desde el servicio.
 	 */
-	usersDataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
+	public usersDataSource: MatTableDataSource<User> =
+		new MatTableDataSource<User>();
 
 	/**
 	 * Carga inicialmente todos los usuarios.
 	 */
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		this.getUsers();
 	}
 
@@ -53,7 +54,7 @@ export class UsersComponent implements OnInit {
 	 *
 	 * @returns {Promise<void>} Una promesa que resuelve cuando los datos han sido cargados.
 	 */
-	async getUsers(): Promise<void> {
+	public async getUsers(): Promise<void> {
 		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
 			this.userService.getUsers(),
 		);
@@ -67,7 +68,7 @@ export class UsersComponent implements OnInit {
 	 * @param {string} fullName - Nombre completo usado como criterio de búsqueda.
 	 * @returns {Promise<void>} Una promesa que resuelve cuando la búsqueda ha terminado.
 	 */
-	async getUsersByFullName(fullName: string): Promise<void> {
+	public async getUsersByFullName(fullName: string): Promise<void> {
 		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
 			this.userService.getUsersByFullName(fullName),
 		);
@@ -77,7 +78,7 @@ export class UsersComponent implements OnInit {
 		}
 	}
 
-	openCreateUserDialog(): void {
+	public openCreateUserDialog(): void {
 		this.dialog
 			.open(CreateUserDialogComponent, {
 				minWidth: '640px',
@@ -101,7 +102,7 @@ export class UsersComponent implements OnInit {
 	/**
 	 * Abre el diálogo para la modificación de un usuario.
 	 */
-	openUpdateUserDialog(): void {
+	public openUpdateUserDialog(): void {
 		this.dialog.open(UpdateUserDialogComponent, {
 			minWidth: '720px',
 			width: '720px',
@@ -111,7 +112,7 @@ export class UsersComponent implements OnInit {
 	/**
 	 * Abre el diálogo para la confirmación de eliminación de un usuario.
 	 */
-	openConfirmDeleteDialog(): void {
+	public openConfirmDeleteDialog(): void {
 		this.dialog.open(ConfirmActionDialogComponent, {
 			minWidth: '720px',
 			width: '720px',
