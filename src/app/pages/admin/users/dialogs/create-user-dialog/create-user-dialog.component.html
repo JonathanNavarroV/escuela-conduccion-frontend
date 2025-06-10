@@ -90,7 +90,7 @@
 				</mat-form-field>
 			</div>
 
-			<div class="col-6">
+			<div class="col-6" *ngIf="isBranchAdmin">
 				<mat-form-field class="w-100">
 					<mat-label>Sedes</mat-label>
 					<mat-select formControlName="branchIds" multiple>

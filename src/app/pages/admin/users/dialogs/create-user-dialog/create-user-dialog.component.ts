@@ -66,6 +66,7 @@ export class CreateUserDialogComponent implements OnInit {
 	public ngOnInit(): void {
 		this.loadRoles();
 		this.loadBranches();
+		this.setupRoleDepedentValidation();
 	}
 
 	/**
@@ -88,6 +89,37 @@ export class CreateUserDialogComponent implements OnInit {
 		);
 
 		this.branches = apiResponse.data;
+	}
+
+	/**
+	 * Configura las validaciones condicionales del formulario según el rol seleccionado.
+	 *
+	 * - Si el rol es `branch_admin`, se aplica la validación `required` al campo `branchIds`.
+	 * - Si el rol no es `branch_admin`, se limpian los validadores de `branchIds` y su valor se restablece a un arreglo vacío.
+	 *
+	 * Esta función se suscribe a los cambios del campo `role` y actualiza dinámicamente las reglas del campo `branchIds`.
+	 */
+	private setupRoleDepedentValidation(): void {
+		this.createUserForm.get('role')?.valueChanges.subscribe(() => {
+			const branchControl = this.createUserForm.get('branchIds');
+
+			if (this.isBranchAdmin) {
+				branchControl?.setValidators([Validators.required]);
+			} else {
+				branchControl?.clearValidators();
+				branchControl?.setValue([]);
+			}
+
+			branchControl?.updateValueAndValidity();
+		});
+	}
+
+	/**
+	 * Retorna `true` si el rol actual seleccionado en el formulario es `branch_admin`.
+	 * Útil para condiciones en plantillas y validaciones reactivas.
+	 */
+	protected get isBranchAdmin(): boolean {
+		return this.createUserForm.get('role')?.value === 'branch_admin';
 	}
 
 	/**
