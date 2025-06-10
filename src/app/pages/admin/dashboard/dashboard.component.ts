@@ -41,7 +41,7 @@ export class DashboardComponent {
 		{ label: '2024', value: '2024', group: 'Años' },
 	];
 
-	selectedRange: string = 'last7';
+	selectedRange = 'last7';
 
 	get timeRangeGroups(): string[] {
 		return [...new Set(this.timeRanges.map((opt) => opt.group))];

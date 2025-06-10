@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
 	FormBuilder,
 	FormGroup,
@@ -36,15 +36,15 @@ import { strictEmailValidator } from '../../../../../core/validators/email.valid
 	templateUrl: './create-user-dialog.component.html',
 	styleUrl: './create-user-dialog.component.scss',
 })
-export class CreateUserDialogComponent {
+export class CreateUserDialogComponent implements OnInit {
+	private readonly formBuilder = inject(FormBuilder);
+	private readonly userService = inject(UserService);
+	private readonly branchService = inject(BranchService);
+	private readonly dialogRef = inject(MatDialogRef<CreateUserDialogComponent>);
+
 	createUserForm: FormGroup;
 
-	constructor(
-		private readonly formBuilder: FormBuilder,
-		private readonly userService: UserService,
-		private readonly branchService: BranchService,
-		private readonly dialogRef: MatDialogRef<CreateUserDialogComponent>,
-	) {
+	constructor() {
 		this.createUserForm = this.formBuilder.group({
 			firstName: ['', [Validators.required]],
 			lastNameFather: ['', [Validators.required]],
@@ -57,8 +57,8 @@ export class CreateUserDialogComponent {
 		});
 	}
 
-	roles?: Array<string>;
-	branches?: Array<Branch>;
+	roles?: string[];
+	branches?: Branch[];
 
 	/**
 	 * Carga inicialmente todos los roles.
@@ -72,7 +72,7 @@ export class CreateUserDialogComponent {
 	 * Carga la lista de roles disponibles desde el servicio y la asigna a la propiedad local.
 	 */
 	async loadRoles(): Promise<void> {
-		const apiResponse: ApiResponse<Array<string>> = await firstValueFrom(
+		const apiResponse: ApiResponse<string[]> = await firstValueFrom(
 			this.userService.getRoles(),
 		);
 
@@ -83,7 +83,7 @@ export class CreateUserDialogComponent {
 	 * Carga la lista de sedes disponibles desde el servicio y la asigna a la propiedad local.
 	 */
 	async loadBranches(): Promise<void> {
-		const apiResponse: ApiResponse<Array<Branch>> = await firstValueFrom(
+		const apiResponse: ApiResponse<Branch[]> = await firstValueFrom(
 			this.branchService.getBranches(),
 		);
 

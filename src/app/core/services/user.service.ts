@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/common/api-response.model';
@@ -10,7 +10,7 @@ import { User } from '../models/users/user.model';
 	providedIn: 'root',
 })
 export class UserService {
-	constructor(private readonly http: HttpClient) {}
+	private readonly http = inject(HttpClient);
 
 	/**
 	 * Obtiene la lista completa de usuarios desde el backend.
@@ -41,8 +41,8 @@ export class UserService {
 	 *
 	 * @returns {Observable<ApiResponse<string[]>>} Observable que emite la respuesta con la lista de roles disponibles.
 	 */
-	getRoles(): Observable<ApiResponse<Array<string>>> {
-		return this.http.get<ApiResponse<Array<string>>>(
+	getRoles(): Observable<ApiResponse<string[]>> {
+		return this.http.get<ApiResponse<string[]>>(
 			`${environment.apiUrl}/users/roles`,
 		);
 	}

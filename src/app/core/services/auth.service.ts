@@ -10,7 +10,7 @@ import { ApiResponse } from '../models/common/api-response.model';
 	providedIn: 'root',
 })
 export class AuthService {
-	private http = inject(HttpClient);
+	private readonly http = inject(HttpClient);
 
 	private readonly tokenKey = 'auth_token';
 

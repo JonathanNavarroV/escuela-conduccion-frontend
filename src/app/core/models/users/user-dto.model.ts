@@ -6,5 +6,5 @@ export interface CreateUserDto {
 	password: string;
 	photo: string | null;
 	role: string;
-	branchIds: Array<string>;
+	branchIds: string[];
 }

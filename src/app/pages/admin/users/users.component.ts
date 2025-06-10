@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,7 +27,9 @@ import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-u
 	templateUrl: './users.component.html',
 	styleUrl: './users.component.scss',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
+	private readonly userService = inject(UserService);
+
 	/**
 	 * Referencia al servicio de diálogos de Angular Material.
 	 */
@@ -38,8 +40,6 @@ export class UsersComponent {
 	 * Se actualiza al obtener datos desde el servicio.
 	 */
 	usersDataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
-
-	constructor(private userService: UserService) {}
 
 	/**
 	 * Carga inicialmente todos los usuarios.

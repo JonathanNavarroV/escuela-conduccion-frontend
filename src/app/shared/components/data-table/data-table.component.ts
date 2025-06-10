@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+	AfterViewInit,
 	Component,
 	EventEmitter,
 	Input,
@@ -29,7 +30,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
 })
-export class DataTableComponent<T> {
+export class DataTableComponent<T> implements AfterViewInit {
 	/**
 	 * Placeholder opcional para el campo de búsqueda.
 	 */
@@ -38,7 +39,7 @@ export class DataTableComponent<T> {
 	/**
 	 * Template opcional para mostrar acciones personalizadas en la cabecera, al lado del buscador.
 	 */
-	@Input() headerActionsTemplate?: TemplateRef<any>;
+	@Input() headerActionsTemplate?: TemplateRef<unknown>;
 
 	/**
 	 * Fuente de datos que será usada por la tabla.
@@ -50,19 +51,19 @@ export class DataTableComponent<T> {
 	 * Lista de definiciones de columnas.
 	 * Cada columna debe tener al menos un identificador `def` y un encabezado `header`.
 	 */
-	@Input() columns: Array<{ def: string; header: string }> = [];
+	@Input() columns: { def: string; header: string }[] = [];
 
 	/**
 	 * Lista de columnas que serán mostradas en el orden definido.
 	 * Cada elemento debe coincidir con el `def` de alguna columna.
 	 */
-	@Input() displayedColumns: Array<string> = [];
+	@Input() displayedColumns: string[] = [];
 
 	/**
 	 * Diccionario de templates personalizados por columna.
 	 * La clave es el `def` de la columna, y el valor un TemplateRef.
 	 */
-	@Input() customTemplates: { [columnDef: string]: TemplateRef<any> } = {};
+	@Input() customTemplates: Record<string, TemplateRef<unknown>> = {};
 
 	/**
 	 * Evento que se emite cada vez que cambia el valor del campo de búsqueda.

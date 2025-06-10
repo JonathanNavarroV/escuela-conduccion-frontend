@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import {
 	FormBuilder,
 	FormGroup,
@@ -39,17 +39,17 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 	styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+	private readonly formBuilder = inject(FormBuilder);
+	private readonly authService = inject(AuthService);
+	private readonly snackbar = inject(SnackbarService);
+	private readonly router = inject(Router);
+
 	loginForm: FormGroup;
 
 	passwordVisibility: WritableSignal<boolean> = signal(true);
-	isLoading: boolean = false;
+	isLoading = false;
 
-	constructor(
-		private readonly formBuilder: FormBuilder,
-		private readonly authService: AuthService,
-		private readonly snackbar: SnackbarService,
-		private readonly router: Router,
-	) {
+	constructor() {
 		this.loginForm = this.formBuilder.group({
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
@@ -84,11 +84,11 @@ export class LoginComponent {
 		this.isLoading = true;
 		try {
 			if (this.loginForm.valid) {
-				let email = this.loginForm.get('email')?.value;
-				let password = this.loginForm.get('password')?.value;
-				let rememberMe = this.loginForm.get('rememberMe')?.value;
+				const email = this.loginForm.get('email')?.value;
+				const password = this.loginForm.get('password')?.value;
+				const rememberMe = this.loginForm.get('rememberMe')?.value;
 
-				let loginRequest: LoginRequest = {
+				const loginRequest: LoginRequest = {
 					email,
 					password,
 				};
@@ -107,8 +107,9 @@ export class LoginComponent {
 					this.router.navigate(['/admin']);
 				}
 			}
-		} catch (error: any) {
-			const message = error?.error?.message;
+		} catch (error: unknown) {
+			const message = (error as { error?: { message?: string } })?.error
+				?.message;
 			if (message) {
 				this.snackbar.show(message);
 			} else {
@@ -122,7 +123,7 @@ export class LoginComponent {
 	}
 
 	async testSuccess() {
-		let loginRequest: LoginRequest = {
+		const loginRequest: LoginRequest = {
 			email: 'juan.perez@ejemplo.com',
 			password: 'contraseña.segura.123',
 		};
@@ -139,12 +140,10 @@ export class LoginComponent {
 	}
 
 	async testError() {
-		let loginRequest: LoginRequest = {
+		const loginRequest: LoginRequest = {
 			email: 'juan.perez@ejemplo.com',
 			password: 'contraseña.segura.321',
 		};
-		const apiResponse: ApiResponse<LoginData> = await firstValueFrom(
-			this.authService.login(loginRequest),
-		);
+		await firstValueFrom(this.authService.login(loginRequest));
 	}
 }
