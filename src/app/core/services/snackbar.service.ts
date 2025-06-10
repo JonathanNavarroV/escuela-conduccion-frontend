@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 
@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 	providedIn: 'root',
 })
 export class SnackbarService {
-	constructor(private snackBar: MatSnackBar) {}
+	private snackBar = inject(MatSnackBar);
 
 	/**
 	 * Muestra un mensaje breve en la parte inferior de la pantalla usando Angular Material Snackbar.

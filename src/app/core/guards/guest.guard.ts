@@ -8,11 +8,11 @@ import { AuthService } from '../services/auth.service';
  *
  * Se utiliza en rutas públicas como `/login` para evitar que usuarios autenticados accedan nuevamente a la pantalla de inicio de sesión.
  *
- * @param route - Información de la ruta que se intenta activar (actualmente no se utiliza).
- * @param state - Estado del router al momento de la navegación (actualmente no se utiliza).
+ * @param _route - Información de la ruta que se intenta activar (actualmente no se utiliza).
+ * @param _state - Estado del router al momento de la navegación (actualmente no se utiliza).
  * @returns `false` y redirige a `/admin` si el usuario ya está autenticado, `true` si no lo está.
  */
-export const guestGuard: CanActivateFn = (route, state) => {
+export const guestGuard: CanActivateFn = (_route, _state) => {
 	const router = inject(Router);
 	const authService = inject(AuthService);
 

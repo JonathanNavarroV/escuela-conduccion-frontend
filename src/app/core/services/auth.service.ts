@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginData } from '../models/auth/login-data.model';
@@ -10,7 +10,8 @@ import { ApiResponse } from '../models/common/api-response.model';
 	providedIn: 'root',
 })
 export class AuthService {
-	constructor(private http: HttpClient) {}
+	private http = inject(HttpClient);
+
 	private readonly tokenKey = 'auth_token';
 
 	/**
