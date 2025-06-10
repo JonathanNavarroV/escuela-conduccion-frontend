@@ -1,43 +1,64 @@
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+	FormBuilder,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { firstValueFrom } from 'rxjs';
 import { Branch } from '../../../../../core/models/branches/branch.model';
 import { ApiResponse } from '../../../../../core/models/common/api-response.model';
+import { CreateUserDto } from '../../../../../core/models/users/user-dto.model';
 import { BranchService } from '../../../../../core/services/branch.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { strictEmailValidator } from '../../../../../core/validators/email.validator';
 
 @Component({
 	selector: 'app-create-user-dialog',
 	standalone: true,
 	imports: [
+		CommonModule,
+		ReactiveFormsModule,
 		MatDialogModule,
-		MatButtonModule,
 		MatFormFieldModule,
-		MatInputModule,
 		MatSelectModule,
+		MatInputModule,
+		MatButtonModule,
 		FormsModule,
-		NgFor,
 	],
 	templateUrl: './create-user-dialog.component.html',
 	styleUrl: './create-user-dialog.component.scss',
 })
 export class CreateUserDialogComponent {
+	createUserForm: FormGroup;
+
 	constructor(
+		private readonly formBuilder: FormBuilder,
 		private readonly userService: UserService,
 		private readonly branchService: BranchService,
-	) {}
+		private readonly dialogRef: MatDialogRef<CreateUserDialogComponent>,
+	) {
+		this.createUserForm = this.formBuilder.group({
+			firstName: ['', [Validators.required]],
+			lastNameFather: ['', [Validators.required]],
+			lastNameMother: ['', [Validators.required]],
+			email: ['', [Validators.required, strictEmailValidator]],
+			password: ['', [Validators.required, Validators.minLength(6)]],
+			photo: ['', []],
+			role: ['', [Validators.required]],
+			branchIds: ['', [Validators.required]],
+		});
+	}
 
 	roles?: Array<string>;
-	selectedRole?: string;
-
 	branches?: Array<Branch>;
-	selectedBranches?: Array<Branch>;
 
 	/**
 	 * Carga inicialmente todos los roles.
@@ -58,11 +79,46 @@ export class CreateUserDialogComponent {
 		this.roles = apiResponse.data;
 	}
 
+	/**
+	 * Carga la lista de sedes disponibles desde el servicio y la asigna a la propiedad local.
+	 */
 	async loadBranches(): Promise<void> {
 		const apiResponse: ApiResponse<Array<Branch>> = await firstValueFrom(
 			this.branchService.getBranches(),
 		);
 
 		this.branches = apiResponse.data;
+	}
+
+	/**
+	 * Maneja el envío del formulario de creación de usuario.
+	 *
+	 * - Valida todos los controles del formulario.
+	 * - Si el formulario es inválido, marca todos los campos como "tocados" para mostrar errores.
+	 * - Si es válido, construye un `CreateUserDto` con los datos ingresados.
+	 * - Elimina el valor de `photo` si viene vacío (lo convierte a `undefined` para que pase la validación del backend).
+	 * - Cierra el diálogo y retorna el DTO al componente padre.
+	 */
+	onSubmit(): void {
+		// Mostrar errores de controles
+		if (this.createUserForm.invalid) {
+			this.createUserForm.markAllAsTouched();
+			return;
+		}
+
+		const formValue = this.createUserForm.value;
+
+		const userToCreate: CreateUserDto = {
+			firstName: formValue.firstName,
+			lastNameFather: formValue.lastNameFather,
+			lastNameMother: formValue.lastNameMother,
+			email: formValue.email,
+			password: formValue.password,
+			photo: formValue.photo?.trim() || undefined,
+			role: formValue.role,
+			branchIds: formValue.branchIds,
+		};
+
+		this.dialogRef.close(userToCreate);
 	}
 }

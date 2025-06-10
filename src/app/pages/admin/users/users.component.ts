@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { firstValueFrom } from 'rxjs';
 import { ApiResponse } from '../../../core/models/common/api-response.model';
+import { CreateUserDto } from '../../../core/models/users/user-dto.model';
 import { User } from '../../../core/models/users/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
@@ -76,14 +77,25 @@ export class UsersComponent {
 		}
 	}
 
-	/**
-	 * Abre el diálogo para la creación de un nuevo usuario.
-	 */
 	openCreateUserDialog(): void {
-		this.dialog.open(CreateUserDialogComponent, {
-			minWidth: '720px',
-			width: '720px',
-		});
+		this.dialog
+			.open(CreateUserDialogComponent, {
+				minWidth: '640px',
+				width: '640px',
+			})
+			.afterClosed()
+			.subscribe((createUserDto: CreateUserDto) => {
+				if (createUserDto) {
+					this.userService.createUser(createUserDto).subscribe({
+						next: (apiResponse) => {
+							console.log('Usuario creado: ', apiResponse.data);
+						},
+						error: (error) => {
+							console.error('Error al crear usuario', error);
+						},
+					});
+				}
+			});
 	}
 
 	/**
