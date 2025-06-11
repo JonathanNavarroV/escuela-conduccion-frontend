@@ -39,8 +39,16 @@ export class UsersComponent implements OnInit {
 	 * Fuente de datos que alimenta la tabla de usuarios.
 	 * Se actualiza al obtener datos desde el servicio.
 	 */
-	public usersDataSource: MatTableDataSource<User> =
+	protected usersDataSource: MatTableDataSource<User> =
 		new MatTableDataSource<User>();
+
+	/**
+	 * Indica si la tabla de usuarios está actualmente cargando datos.
+	 *
+	 * Esta bandera se utiliza para mostrar u ocultar un overlay de carga sobre la tabla
+	 * mientras se realiza una petición al backend.
+	 */
+	protected isLoadingDataTable = false;
 
 	/**
 	 * Carga inicialmente todos los usuarios.
@@ -51,14 +59,19 @@ export class UsersComponent implements OnInit {
 
 	/**
 	 * Obtiene todos los usuarios desde el backend y actualiza el dataSource de la tabla.
-	 *
-	 * @returns {Promise<void>} Una promesa que resuelve cuando los datos han sido cargados.
 	 */
 	public async getUsers(): Promise<void> {
-		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
-			this.userService.getUsers(),
-		);
-		this.usersDataSource.data = apiResponse.data;
+		this.isLoadingDataTable = true;
+		try {
+			const apiResponse: ApiResponse<User[]> = await firstValueFrom(
+				this.userService.getUsers(),
+			);
+			this.usersDataSource.data = apiResponse.data ?? [];
+		} catch (error) {
+			console.error('Error al obtener los usuarios:', error);
+		} finally {
+			this.isLoadingDataTable = false;
+		}
 	}
 
 	/**
@@ -66,18 +79,34 @@ export class UsersComponent implements OnInit {
 	 * Si el input está vacío, vuelve a cargar todos los usuarios.
 	 *
 	 * @param {string} fullName - Nombre completo usado como criterio de búsqueda.
-	 * @returns {Promise<void>} Una promesa que resuelve cuando la búsqueda ha terminado.
 	 */
 	public async getUsersByFullName(fullName: string): Promise<void> {
-		const apiResponse: ApiResponse<User[]> = await firstValueFrom(
-			this.userService.getUsersByFullName(fullName),
-		);
-		this.usersDataSource.data = apiResponse.data;
 		if (fullName.length === 0) {
 			this.getUsers();
+		} else {
+			this.isLoadingDataTable = true;
+			try {
+				const apiResponse: ApiResponse<User[]> = await firstValueFrom(
+					this.userService.getUsersByFullName(fullName),
+				);
+				this.usersDataSource.data = apiResponse.data ?? [];
+			} catch (error) {
+				console.error('Error al obtener los usuarios:', error);
+			} finally {
+				this.isLoadingDataTable = false;
+			}
 		}
 	}
 
+	/**
+	 * Abre el diálogo de creación de usuario.
+	 *
+	 * Al cerrar el diálogo, si el usuario envía un formulario válido, se envía la solicitud
+	 * al backend para crear un nuevo usuario usando `UserService`.
+	 *
+	 * Si la creación es exitosa, se muestra el resultado en consola.
+	 * Si ocurre un error, se registra en consola.
+	 */
 	public openCreateUserDialog(): void {
 		this.dialog
 			.open(CreateUserDialogComponent, {

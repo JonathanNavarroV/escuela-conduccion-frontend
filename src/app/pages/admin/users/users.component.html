@@ -30,6 +30,7 @@
 			]"
 			[displayedColumns]="['user', 'email', 'role', 'actions']"
 			[customTemplates]="{ user: userTemplate, actions: actionsTemplate }"
+			[isLoading]="isLoadingDataTable"
 			(searchChanged)="getUsersByFullName($event)"
 		>
 			<!-- Acciones de cabecera -->

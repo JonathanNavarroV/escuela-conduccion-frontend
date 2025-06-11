@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 @Component({
@@ -25,6 +26,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 		MatPaginatorModule,
 		MatInputModule,
 		MatButtonModule,
+		MatProgressBarModule,
 		CommonModule,
 	],
 	templateUrl: './data-table.component.html',
@@ -65,6 +67,14 @@ export class DataTableComponent<T> implements AfterViewInit {
 	 * La clave es el `def` de la columna, y el valor un TemplateRef.
 	 */
 	@Input() public customTemplates: Record<string, TemplateRef<unknown>> = {};
+
+	/**
+	 * Indica si la tabla está actualmente cargando datos.
+	 *
+	 * Esta bandera se utiliza para mostrar u ocultar un overlay de carga sobre la tabla
+	 * mientras se realiza una petición al backend.
+	 */
+	@Input() public isLoading = false;
 
 	/**
 	 * Evento que se emite cada vez que cambia el valor del campo de búsqueda.
