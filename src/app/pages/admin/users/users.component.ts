@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { firstValueFrom } from 'rxjs';
+import { DEFAULT_USER_IMAGE } from '../../../core/constants/image-paths';
 import { ApiResponse } from '../../../core/models/common/api-response.model';
 import { CreateUserDto } from '../../../core/models/users/user-dto.model';
 import { User } from '../../../core/models/users/user.model';
@@ -42,12 +43,7 @@ export class UsersComponent implements OnInit {
 	protected usersDataSource: MatTableDataSource<User> =
 		new MatTableDataSource<User>();
 
-	/**
-	 * Indica si la tabla de usuarios está actualmente cargando datos.
-	 *
-	 * Esta bandera se utiliza para mostrar u ocultar un overlay de carga sobre la tabla
-	 * mientras se realiza una petición al backend.
-	 */
+	protected defaultUserImage = DEFAULT_USER_IMAGE;
 	protected isLoadingDataTable = false;
 
 	/**
