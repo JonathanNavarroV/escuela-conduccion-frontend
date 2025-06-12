@@ -3,8 +3,8 @@ export interface CreateUserDto {
 	lastNameFather: string;
 	lastNameMother: string;
 	email: string;
-	password: string;
-	photo: string | null;
+	password?: string | null;
+	photo?: string | null;
 	role: string;
 	branchIds: string[];
 }

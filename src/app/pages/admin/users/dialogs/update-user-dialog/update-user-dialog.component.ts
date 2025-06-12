@@ -107,7 +107,6 @@ export class UpdateUserDialogComponent implements OnInit {
 			lastNameFather: user.lastNameFather,
 			lastNameMother: user.lastNameMother,
 			email: user.email,
-			password: 'password',
 			photo: user.photo,
 			role: user.role,
 			branchIds: user.branchIds,
@@ -141,8 +140,8 @@ export class UpdateUserDialogComponent implements OnInit {
 	 * - Valida todos los controles del formulario.
 	 * - Si el formulario es inválido, marca todos los campos como "tocados" para mostrar errores.
 	 * - Si es válido, construye un `UpdateUserDto` con los datos ingresados.
-	 * - Elimina el valor de `photo` si viene vacío (lo convierte a `undefined` para evitar errores en el backend).
-	 * - Cierra el diálogo y retorna el DTO al componente padre para continuar con la actualización.
+	 * - Elimina `password` y `photo` si vienen vacíos (los convierte a `undefined` para evitar sobrescribir datos en el backend).
+	 * - Cierra el diálogo y retorna el DTO al componente padre.
 	 */
 	protected onSubmit(): void {
 		// Mostrar errores de controles
@@ -158,10 +157,16 @@ export class UpdateUserDialogComponent implements OnInit {
 			lastNameFather: formValue.lastNameFather,
 			lastNameMother: formValue.lastNameMother,
 			email: formValue.email,
-			password: formValue.password,
-			photo: formValue.photo?.trim() || undefined,
 			branchIds: formValue.branchIds,
 		};
+
+		if (formValue.password?.trim()) {
+			userToUpdate.password = formValue.password.trim();
+		}
+
+		if (formValue.photo?.trim()) {
+			userToUpdate.photo = formValue.photo.trim();
+		}
 
 		this.dialogRef.close(userToUpdate);
 	}

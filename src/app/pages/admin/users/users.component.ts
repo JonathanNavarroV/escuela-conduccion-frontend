@@ -100,8 +100,7 @@ export class UsersComponent implements OnInit {
 	/**
 	 * Abre el diálogo de creación de usuario.
 	 *
-	 * Al cerrar el diálogo, si el usuario envía un formulario válido, se envía la solicitud
-	 * al backend para crear un nuevo usuario usando `UserService`.
+	 * Al cerrar el diálogo, si el usuario envía un formulario válido, se envía la solicitud al backend para crear un nuevo usuario usando `UserService`.
 	 *
 	 * Si la creación es exitosa, se muestra el resultado en consola.
 	 * Si ocurre un error, se registra en consola.
@@ -129,6 +128,11 @@ export class UsersComponent implements OnInit {
 
 	/**
 	 * Abre el diálogo para la modificación de un usuario.
+	 *
+	 * Al cerrar el diálogo, si el usuario envía un formulario válido, se envía la solicitud al backend para actualizar un usuario usando `UserService`.
+	 *
+	 * Si la actualización es exitosa, se muestra el resultado en consola.
+	 * Si ocurre un error, se registra en consola.
 	 */
 	public openUpdateUserDialog(userId: string): void {
 		this.dialog
