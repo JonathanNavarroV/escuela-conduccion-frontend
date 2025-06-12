@@ -23,7 +23,7 @@
 			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		</div>
 		<!-- Tabla -->
-		<table mat-table [dataSource]="dataSource">
+		<table mat-table [dataSource]="dataSource" [trackBy]="trackById">
 			<!-- Columnas dinámicas -->
 			<ng-container *ngFor="let column of columns" [matColumnDef]="column.def">
 				<th mat-header-cell *matHeaderCellDef>

@@ -32,7 +32,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
 })
-export class DataTableComponent<T> implements AfterViewInit {
+export class DataTableComponent<T extends { id: string }>
+	implements AfterViewInit
+{
 	/**
 	 * Placeholder opcional para el campo de búsqueda.
 	 */
@@ -110,5 +112,17 @@ export class DataTableComponent<T> implements AfterViewInit {
 	protected onSearchChanged(event: Event): void {
 		const value = (event.target as HTMLInputElement).value;
 		this.searchChanged.emit(value);
+	}
+
+	/**
+	 * Función trackBy para optimizar el renderizado de filas en la tabla.
+	 * Utiliza la propiedad `id` de cada elemento para identificarlo de forma única.
+	 *
+	 * @param {number} _index - Índice del elemento en la lista.
+	 * @param {T} item - Elemento actual de la lista.
+	 * @returns {string} El identificador único del elemento (propiedad `id`).
+	 */
+	public trackById(_index: number, item: T): string {
+		return item.id;
 	}
 }

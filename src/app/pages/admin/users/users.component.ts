@@ -117,6 +117,7 @@ export class UsersComponent implements OnInit {
 					this.userService.createUser(createUserDto).subscribe({
 						next: (apiResponse) => {
 							console.log('Usuario creado: ', apiResponse.data);
+							this.getUsers();
 						},
 						error: (error) => {
 							console.error('Error al crear usuario', error);
@@ -147,6 +148,7 @@ export class UsersComponent implements OnInit {
 					this.userService.updateUser(userId, updateUserDto).subscribe({
 						next: (apiResponse) => {
 							console.log('Usuario actualizado: ', apiResponse.data);
+							this.getUsers();
 						},
 						error: (error) => {
 							console.error('Error al actualizar usuario', error);
