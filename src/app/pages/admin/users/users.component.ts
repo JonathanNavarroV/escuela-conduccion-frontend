@@ -7,7 +7,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { firstValueFrom } from 'rxjs';
 import { DEFAULT_USER_IMAGE } from '../../../core/constants/image-paths';
 import { ApiResponse } from '../../../core/models/common/api-response.model';
-import { CreateUserDto } from '../../../core/models/users/user-dto.model';
+import {
+	CreateUserDto,
+	UpdateUserDto,
+} from '../../../core/models/users/user-dto.model';
 import { User } from '../../../core/models/users/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
@@ -127,20 +130,31 @@ export class UsersComponent implements OnInit {
 	/**
 	 * Abre el diálogo para la modificación de un usuario.
 	 */
-	public openUpdateUserDialog(): void {
-		this.dialog.open(UpdateUserDialogComponent, {
-			minWidth: '720px',
-			width: '720px',
-		});
+	public openUpdateUserDialog(userId: string): void {
+		this.dialog
+			.open(UpdateUserDialogComponent, {
+				minWidth: '640px',
+				width: '640px',
+				data: userId,
+			})
+			.afterClosed()
+			.subscribe((updateUserDto: UpdateUserDto) => {
+				if (updateUserDto)
+					this.userService.updateUser(userId, updateUserDto).subscribe({
+						next: (apiResponse) => {
+							console.log('Usuario actualizado: ', apiResponse.data);
+						},
+						error: (error) => {
+							console.error('Error al actualizar usuario', error);
+						},
+					});
+			});
 	}
 
 	/**
 	 * Abre el diálogo para la confirmación de eliminación de un usuario.
 	 */
 	public openConfirmDeleteDialog(): void {
-		this.dialog.open(ConfirmActionDialogComponent, {
-			minWidth: '720px',
-			width: '720px',
-		});
+		this.dialog.open(ConfirmActionDialogComponent, {});
 	}
 }

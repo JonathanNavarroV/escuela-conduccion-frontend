@@ -6,4 +6,5 @@ export interface User {
 	lastNameMother: string;
 	email: string;
 	role: string;
+	branchIds: string[];
 }

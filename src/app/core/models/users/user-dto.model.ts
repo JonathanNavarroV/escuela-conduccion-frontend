@@ -8,3 +8,7 @@ export interface CreateUserDto {
 	role: string;
 	branchIds: string[];
 }
+
+export interface UpdateUserDto extends Omit<CreateUserDto, 'role'> {
+	role?: string;
+}

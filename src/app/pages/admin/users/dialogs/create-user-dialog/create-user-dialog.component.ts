@@ -3,7 +3,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import {
 	FormBuilder,
 	FormGroup,
-	FormsModule,
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
@@ -31,7 +30,6 @@ import { strictEmailValidator } from '../../../../../core/validators/email.valid
 		MatSelectModule,
 		MatInputModule,
 		MatButtonModule,
-		FormsModule,
 	],
 	templateUrl: './create-user-dialog.component.html',
 	styleUrl: './create-user-dialog.component.scss',
@@ -43,6 +41,8 @@ export class CreateUserDialogComponent implements OnInit {
 	private readonly dialogRef = inject(MatDialogRef<CreateUserDialogComponent>);
 
 	protected createUserForm: FormGroup;
+	protected roles?: string[];
+	protected branches?: Branch[];
 
 	public constructor() {
 		this.createUserForm = this.formBuilder.group({
@@ -51,18 +51,12 @@ export class CreateUserDialogComponent implements OnInit {
 			lastNameMother: ['', [Validators.required]],
 			email: ['', [Validators.required, strictEmailValidator]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
-			photo: ['', []],
+			photo: [''],
 			role: ['', [Validators.required]],
 			branchIds: ['', [Validators.required]],
 		});
 	}
 
-	protected roles?: string[];
-	protected branches?: Branch[];
-
-	/**
-	 * Carga inicialmente todos los roles.
-	 */
 	public ngOnInit(): void {
 		this.loadRoles();
 		this.loadBranches();
