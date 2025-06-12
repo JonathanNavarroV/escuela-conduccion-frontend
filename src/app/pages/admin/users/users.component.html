@@ -1,0 +1,71 @@
+<div class="d-flex flex-column gap-4 align-items-center">
+	<!-- Header -->
+	<div class="w-100">
+		<h2>Usuarios</h2>
+	</div>
+
+	<!-- Contenido -->
+	<div class="users-content w-100">
+		<app-data-table
+			[searchPlaceholder]="'Buscar por nombre'"
+			[headerActionsTemplate]="actionsHeaderTemplate"
+			[dataSource]="usersDataSource"
+			[columns]="[
+				{
+					def: 'user',
+					header: 'Usuario',
+				},
+				{
+					def: 'email',
+					header: 'Email',
+				},
+				{
+					def: 'role',
+					header: 'Rol',
+				},
+				{
+					def: 'actions',
+					header: '',
+				},
+			]"
+			[displayedColumns]="['user', 'email', 'role', 'actions']"
+			[customTemplates]="{ user: userTemplate, actions: actionsTemplate }"
+			[isLoading]="isLoadingDataTable"
+			(searchChanged)="getUsersByFullName($event)"
+		>
+			<!-- Acciones de cabecera -->
+			<ng-template #actionsHeaderTemplate>
+				<button mat-icon-button (click)="openCreateUserDialog()">
+					<mat-icon>person_add</mat-icon>
+				</button>
+			</ng-template>
+
+			<!-- Usuario -->
+			<ng-template #userTemplate let-user>
+				<img
+					class="user-photo"
+					[src]="user.photo || defaultUserImage"
+					alt="User photo"
+				/>
+				{{ user.firstName }} {{ user.lastNameFather }} {{ user.lastNameMother }}
+			</ng-template>
+
+			<!-- Acciones -->
+			<ng-template #actionsTemplate let-actions>
+				<button mat-icon-button [matMenuTriggerFor]="menu">
+					<mat-icon>more_horiz</mat-icon>
+				</button>
+				<mat-menu #menu="matMenu">
+					<button mat-menu-item (click)="openUpdateUserDialog(actions.id)">
+						<mat-icon>edit</mat-icon>
+						<span>Editar</span>
+					</button>
+					<button mat-menu-item (click)="openConfirmDeleteDialog(actions.id)">
+						<mat-icon>delete</mat-icon>
+						<span>Eliminar</span>
+					</button>
+				</mat-menu>
+			</ng-template>
+		</app-data-table>
+	</div>
+</div>

@@ -12,7 +12,7 @@ import { RecentUser } from '../../../../../core/models/dashboard/recent-user.mod
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecentUsersTableComponent {
-	recentUsers: RecentUser[] = [
+	protected recentUsers: RecentUser[] = [
 		{
 			id: 'a1',
 			fullName: 'Jonathan Damián Navarro Vega',
@@ -51,5 +51,9 @@ export class RecentUsersTableComponent {
 		},
 	];
 
-	displayedColumns: string[] = ['fullName', 'email', 'registrationDate'];
+	protected displayedColumns: string[] = [
+		'fullName',
+		'email',
+		'registrationDate',
+	];
 }

@@ -15,19 +15,19 @@ export class HeaderComponent {
 	/**
 	 *	Indica si el sidenav está colapsado.
 	 */
-	@Input() sidenavCollapsed!: Signal<boolean>;
+	@Input() public sidenavCollapsed!: Signal<boolean>;
 
 	/**
 	 * Evento emitido cuando el usuario hace click en el botón para colapsar/expandir el sidenav.
 	 */
-	@Output() sidenavToggle = new EventEmitter<void>();
+	@Output() private sidenavToggle = new EventEmitter<void>();
 
 	/**
 	 * Maneja el click del botón del menú
 	 *
 	 * Emite un evento para indicar que se desea alternar el estado del sidenav.
 	 */
-	onToggleSidenav(): void {
+	protected onToggleSidenav(): void {
 		this.sidenavToggle.emit();
 	}
 }

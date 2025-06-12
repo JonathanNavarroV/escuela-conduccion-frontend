@@ -12,7 +12,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 	styleUrl: './total-sales-insight.component.scss',
 })
 export class TotalSalesInsightComponent {
-	chartOption: EChartsCoreOption = {
+	protected chartOption: EChartsCoreOption = {
 		xAxis: {
 			type: 'category',
 			data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],

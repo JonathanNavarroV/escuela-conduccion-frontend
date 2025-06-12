@@ -1,0 +1,93 @@
+<h2 mat-dialog-title class="m-0">Actualizar usuario</h2>
+<form [formGroup]="updateUserForm">
+	<mat-dialog-content>
+		<div class="row gx-3 gy-2">
+			<div class="col-12">
+				<mat-form-field class="w-100">
+					<mat-label>Nombre</mat-label>
+					<input matInput formControlName="firstName" type="text" />
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Apellido paterno</mat-label>
+					<input matInput formControlName="lastNameFather" type="text" />
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Apellido materno</mat-label>
+					<input matInput formControlName="lastNameMother" type="text" />
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Email</mat-label>
+					<input matInput formControlName="email" type="email" />
+					<mat-error
+						*ngIf="updateUserForm.get('email')?.hasError('strictEmail')"
+						>Email inválido</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Contraseña</mat-label>
+					<input matInput formControlName="password" type="password" />
+					<mat-error
+						*ngIf="updateUserForm.get('password')?.hasError('minlength')"
+						>La contraseña debe tener al menos
+						{{
+							updateUserForm.get("password")?.errors?.["minlength"]
+								?.requiredLength
+						}}
+						caracteres.</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-12">
+				<mat-form-field class="w-100">
+					<mat-label>Imagen Url</mat-label>
+					<input matInput formControlName="photo" type="url" />
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Rol</mat-label>
+					<mat-select formControlName="role">
+						<mat-option *ngFor="let role of roles" [value]="role">{{
+							role
+						}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6" *ngIf="isBranchAdmin">
+				<mat-form-field class="w-100">
+					<mat-label>Sedes</mat-label>
+					<mat-select formControlName="branchIds" multiple>
+						<mat-option *ngFor="let branch of branches" [value]="branch.id">
+							{{ branch.name }}
+						</mat-option>
+					</mat-select>
+					<mat-error
+						*ngIf="updateUserForm.get('branchIds')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+				</mat-form-field>
+			</div>
+		</div>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+		<button mat-button mat-dialog-close color="warn">Cancelar</button>
+		<button mat-button [disabled]="updateUserForm.invalid" (click)="onSubmit()">
+			Actualizar
+		</button>
+	</mat-dialog-actions>
+</form>

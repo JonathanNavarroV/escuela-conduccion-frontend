@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 	styleUrl: './action-history-timeline.component.scss',
 })
 export class ActionHistoryTimelineComponent {
-	value = [
+	protected value = [
 		{
 			date: new Date(),
 			content: 'Evento 1',

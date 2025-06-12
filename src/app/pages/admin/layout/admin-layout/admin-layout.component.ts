@@ -18,13 +18,13 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 	styleUrl: './admin-layout.component.scss',
 })
 export class AdminLayoutComponent {
-	sidenavCollapsed: WritableSignal<boolean> = signal(false);
+	protected sidenavCollapsed: WritableSignal<boolean> = signal(false);
 
 	/**
 	 * Ancho dinámico del sidenav, calculado en funcón del estado `sidenavCollapsed`.
 	 * Si está colapsado, el ancho será 65px; de lo contrario, 250px.
 	 */
-	sidenavWidth: Signal<'65px' | '250px'> = computed(() =>
+	protected sidenavWidth: Signal<'65px' | '250px'> = computed(() =>
 		this.sidenavCollapsed() ? '65px' : '250px',
 	);
 
@@ -33,7 +33,7 @@ export class AdminLayoutComponent {
 	 *
 	 * Este método invierte el valor actual de `sidenavCollapsed`, lo que a su vez actualiza automáticamente el ancho calculado `sidenavWidth`.
 	 */
-	toggleSidenav() {
+	protected toggleSidenav() {
 		this.sidenavCollapsed.set(!this.sidenavCollapsed());
 	}
 }

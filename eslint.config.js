@@ -34,6 +34,12 @@ module.exports = tseslint.config(
 				"error",
 				{ argsIgnorePattern: "^_" },
 			],
+			"@typescript-eslint/explicit-member-accessibility": [
+				"error",
+				{
+					accessibility: "explicit",
+				},
+			],
 		},
 	},
 	{
