@@ -7,6 +7,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { firstValueFrom } from 'rxjs';
 import { DEFAULT_USER_IMAGE } from '../../../core/constants/image-paths';
 import { ApiResponse } from '../../../core/models/common/api-response.model';
+import { ConfirmDialogData } from '../../../core/models/common/confirm-dialog-data';
 import {
 	CreateUserDto,
 	UpdateUserDto,
@@ -128,12 +129,15 @@ export class UsersComponent implements OnInit {
 	}
 
 	/**
-	 * Abre el diálogo para la modificación de un usuario.
+	 * Abre el diálogo para editar un usuario existente.
 	 *
-	 * Al cerrar el diálogo, si el usuario envía un formulario válido, se envía la solicitud al backend para actualizar un usuario usando `UserService`.
+	 * @param userId - ID del usuario que se desea editar.
 	 *
-	 * Si la actualización es exitosa, se muestra el resultado en consola.
-	 * Si ocurre un error, se registra en consola.
+	 * Al cerrar el diálogo, si se proporciona un formulario válido (`UpdateUserDto`),
+	 * se envía una solicitud al backend mediante `UserService` para actualizar al usuario.
+	 *
+	 * - Si la actualización es exitosa, se muestra el usuario actualizado en la consola y se recarga la lista de usuarios.
+	 * - Si ocurre un error, este se registra en la consola.
 	 */
 	public openUpdateUserDialog(userId: string): void {
 		this.dialog
@@ -158,9 +162,39 @@ export class UsersComponent implements OnInit {
 	}
 
 	/**
-	 * Abre el diálogo para la confirmación de eliminación de un usuario.
+	 * Abre un cuadro de diálogo para confirmar la eliminación de un usuario.
+	 *
+	 * @param userId - ID del usuario que se desea eliminar.
+	 *
+	 * Si el usuario confirma la acción, se envía una solicitud al backend para eliminar al usuario
+	 * usando `UserService`.
+	 *
+	 * - Si la eliminación es exitosa, se muestra el resultado en la consola y se recarga la lista de usuarios.
+	 * - Si ocurre un error, este se registra en la consola.
 	 */
-	public openConfirmDeleteDialog(): void {
-		this.dialog.open(ConfirmActionDialogComponent, {});
+	public openConfirmDeleteDialog(userId: string): void {
+		const dialogData: ConfirmDialogData = {
+			title: 'Eliminar usuario',
+			message: '¿Seguro que deseas eliminar a este usuario?',
+		};
+
+		this.dialog
+			.open(ConfirmActionDialogComponent, {
+				data: dialogData,
+			})
+			.afterClosed()
+			.subscribe((confirmed: boolean) => {
+				if (confirmed) {
+					this.userService.deleteUser(userId).subscribe({
+						next: (apiResponse) => {
+							console.log('Usuario eliminado: ', apiResponse.data);
+							this.getUsers();
+						},
+						error: (error) => {
+							console.error('Error al eliminar usuario', error);
+						},
+					});
+				}
+			});
 	}
 }

@@ -37,7 +37,7 @@ export class UserService {
 	}
 
 	/**
-	 * Busca usuarios por el identificador.
+	 * Busca usuarios su ID.
 	 *
 	 * @param {string} userId - Identificador para buscar coincidencias de usuario.
 	 * @returns {Observable<ApiResponse<User>>} Observable que emite la respuesta con el usuario encontrado.
@@ -75,10 +75,11 @@ export class UserService {
 	}
 
 	/**
-	 * Actualizar un usuario.
+	 * Actualiza los datos de un usuario existente.
 	 *
-	 * @param updateUserDto - Objeto que contiene los datos del usuario a actualizar.
-	 * @returns Un `Observable` que emite la respuesta del servidor, la cual incluye el usuario actualizado.
+	 * @param userId - ID del usuario que se desea actualizar.
+	 * @param updateUserDto - Objeto con los nuevos datos para el usuario.
+	 * @returns Un `Observable` que emite la respuesta del servidor, incluyendo el usuario actualizado.
 	 */
 	public updateUser(
 		userId: string,
@@ -87,6 +88,18 @@ export class UserService {
 		return this.http.patch<ApiResponse<User>>(
 			`${environment.apiUrl}/users/${userId}`,
 			updateUserDto,
+		);
+	}
+
+	/**
+	 * Elimina un usuario por su ID.
+	 *
+	 * @param userId - ID del usuario que se desea eliminar.
+	 * @returns Un `Observable` que emite la respuesta del servidor al eliminar el usuario.
+	 */
+	public deleteUser(userId: string): Observable<ApiResponse<unknown>> {
+		return this.http.delete<ApiResponse<unknown>>(
+			`${environment.apiUrl}/users/${userId}`,
 		);
 	}
 }
