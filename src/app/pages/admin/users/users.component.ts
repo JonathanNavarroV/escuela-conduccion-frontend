@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
 	/**
 	 * Referencia al servicio de diálogos de Angular Material.
 	 */
-	private dialog = inject(MatDialog);
+	private readonly dialog = inject(MatDialog);
 
 	/**
 	 * Fuente de datos que alimenta la tabla de usuarios.
@@ -68,26 +68,26 @@ export class UsersComponent implements OnInit {
 			);
 			this.usersDataSource.data = apiResponse.data ?? [];
 		} catch (error) {
-			console.error('Error al obtener los usuarios:', error);
+			console.error('Error al obtener los usuarios: ', error);
 		} finally {
 			this.isLoadingDataTable = false;
 		}
 	}
 
 	/**
-	 * Busca usuarios por nombre completo utilizando el servicio.
+	 * Busca usuarios por nombre completo.
 	 * Si el input está vacío, vuelve a cargar todos los usuarios.
 	 *
-	 * @param {string} fullName - Nombre completo usado como criterio de búsqueda.
+	 * @param {string} searchTerm - Nombre completo usado como criterio de búsqueda.
 	 */
-	public async getUsersByFullName(fullName: string): Promise<void> {
-		if (fullName.length === 0) {
+	public async getUsersBySearchTerm(searchTerm: string): Promise<void> {
+		if (searchTerm.length === 0) {
 			this.getUsers();
 		} else {
 			this.isLoadingDataTable = true;
 			try {
 				const apiResponse: ApiResponse<User[]> = await firstValueFrom(
-					this.userService.getUsersByFullName(fullName),
+					this.userService.getUsersBySearchTerm(searchTerm),
 				);
 				this.usersDataSource.data = apiResponse.data ?? [];
 			} catch (error) {

@@ -24,20 +24,22 @@ export class UserService {
 	/**
 	 * Busca usuarios cuyo nombre completo coincide parcial o totalmente con el término dado.
 	 *
-	 * @param {string} fullName - Texto para buscar coincidencias en el nombre completo.
-	 * @returns {Observable<ApiResponse<User[]>>} Observable que emite la respuesta con la lista de usuarios encontrados.
+	 * @param {string} searchTerm - Texto para buscar coincidencias en el nombre.
+	 * @returns {Observable<ApiResponse<User[]>>} Observable que emite la respuesta con la lista de sedes encontradas.
 	 */
-	public getUsersByFullName(fullName: string): Observable<ApiResponse<User[]>> {
+	public getUsersBySearchTerm(
+		searchTerm: string,
+	): Observable<ApiResponse<User[]>> {
 		return this.http.get<ApiResponse<User[]>>(
 			`${environment.apiUrl}/users/search`,
 			{
-				params: { fullName },
+				params: { searchTerm },
 			},
 		);
 	}
 
 	/**
-	 * Busca usuarios su ID.
+	 * Busca usuarios por su ID.
 	 *
 	 * @param {string} userId - Identificador para buscar coincidencias de usuario.
 	 * @returns {Observable<ApiResponse<User>>} Observable que emite la respuesta con el usuario encontrado.
