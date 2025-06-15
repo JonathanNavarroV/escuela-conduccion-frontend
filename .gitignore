@@ -22,9 +22,10 @@ yarn-error.log
 
 # Visual Studio Code
 .vscode/*
-!.vscode/tasks.json
-!.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 .history/*
 
 # Miscellaneous
