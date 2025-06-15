@@ -91,7 +91,7 @@ export class UsersComponent implements OnInit {
 				);
 				this.usersDataSource.data = apiResponse.data ?? [];
 			} catch (error) {
-				console.error('Error al obtener los usuarios:', error);
+				console.error('Error al obtener los usuarios: ', error);
 			} finally {
 				this.isLoadingDataTable = false;
 			}
@@ -106,7 +106,7 @@ export class UsersComponent implements OnInit {
 	 * Si la creación es exitosa, se muestra el resultado en consola.
 	 * Si ocurre un error, se registra en consola.
 	 */
-	public openCreateUserDialog(): void {
+	protected openCreateUserDialog(): void {
 		this.dialog
 			.open(CreateUserDialogComponent, {
 				minWidth: '640px',
@@ -133,13 +133,12 @@ export class UsersComponent implements OnInit {
 	 *
 	 * @param userId - ID del usuario que se desea editar.
 	 *
-	 * Al cerrar el diálogo, si se proporciona un formulario válido (`UpdateUserDto`),
-	 * se envía una solicitud al backend mediante `UserService` para actualizar al usuario.
+	 * Al cerrar el diálogo, si se proporciona un formulario válido (`UpdateUserDto`), se envía una solicitud al backend mediante `UserService` para actualizar al usuario.
 	 *
-	 * - Si la actualización es exitosa, se muestra el usuario actualizado en la consola y se recarga la lista de usuarios.
+	 * - Si la actualización es exitosa, se recarga la lista de usuarios.
 	 * - Si ocurre un error, este se registra en la consola.
 	 */
-	public openUpdateUserDialog(userId: string): void {
+	protected openUpdateUserDialog(userId: string): void {
 		this.dialog
 			.open(UpdateUserDialogComponent, {
 				minWidth: '640px',
@@ -148,7 +147,7 @@ export class UsersComponent implements OnInit {
 			})
 			.afterClosed()
 			.subscribe((updateUserDto: UpdateUserDto) => {
-				if (updateUserDto)
+				if (updateUserDto) {
 					this.userService.updateUser(userId, updateUserDto).subscribe({
 						next: (apiResponse) => {
 							console.log('Usuario actualizado: ', apiResponse.data);
@@ -158,6 +157,7 @@ export class UsersComponent implements OnInit {
 							console.error('Error al actualizar usuario', error);
 						},
 					});
+				}
 			});
 	}
 
@@ -166,13 +166,12 @@ export class UsersComponent implements OnInit {
 	 *
 	 * @param userId - ID del usuario que se desea eliminar.
 	 *
-	 * Si el usuario confirma la acción, se envía una solicitud al backend para eliminar al usuario
-	 * usando `UserService`.
+	 * Si se confirma la acción, se envía una solicitud al backend para eliminar al usuario usando `UserService`.
 	 *
-	 * - Si la eliminación es exitosa, se muestra el resultado en la consola y se recarga la lista de usuarios.
+	 * - Si la eliminación es exitosa, se recarga la lista de usuarios.
 	 * - Si ocurre un error, este se registra en la consola.
 	 */
-	public openConfirmDeleteDialog(userId: string): void {
+	protected openConfirmDeleteDialog(userId: string): void {
 		const dialogData: ConfirmDialogData = {
 			title: 'Eliminar usuario',
 			message: '¿Seguro que deseas eliminar a este usuario?',

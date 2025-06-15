@@ -1,0 +1,61 @@
+<div class="d-flex flex-column gap-4 align-items-center">
+	<!-- Header -->
+	<div class="w-100">
+		<h2>Sedes</h2>
+	</div>
+
+	<!-- Contenido -->
+	<div class="branches-content w-100">
+		<app-data-table
+			[searchPlaceholder]="'Buscar por nombre'"
+			[headerActionsTemplate]="actionHeaderTemplate"
+			[dataSource]="branchesDataSource"
+			[columns]="[
+				{
+					def: 'name',
+					header: 'Sede',
+				},
+				{
+					def: 'email',
+					header: 'Email',
+				},
+				{
+					def: 'address',
+					header: 'Dirección',
+				},
+				{
+					def: 'actions',
+					header: '',
+				},
+			]"
+			[displayedColumns]="['name', 'email', 'address', 'actions']"
+			[customTemplates]="{ actions: actionsTemplate }"
+			[isLoading]="isLoadingDataTable"
+			(searchChanged)="getBranchesByTerm($event)"
+		>
+			<!-- Acciones de cabecera -->
+			<ng-template #actionHeaderTemplate>
+				<button mat-icon-button (click)="openCreateBranchDialog()">
+					<mat-icon>add_business</mat-icon>
+				</button>
+			</ng-template>
+
+			<!-- Acciones -->
+			<ng-template #actionsTemplate let-actions>
+				<button mat-icon-button [matMenuTriggerFor]="menu">
+					<mat-icon>more_horiz</mat-icon>
+				</button>
+				<mat-menu #menu="matMenu">
+					<button mat-menu-item (click)="openUpdateBranchDialog(actions.id)">
+						<mat-icon>edit</mat-icon>
+						<span>Editar</span>
+					</button>
+					<button mat-menu-item (click)="openConfirmDeleteDialog(actions.id)">
+						<mat-icon>delete</mat-icon>
+						<span>Eliminar</span>
+					</button>
+				</mat-menu>
+			</ng-template>
+		</app-data-table>
+	</div>
+</div>

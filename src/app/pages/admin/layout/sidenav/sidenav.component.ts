@@ -50,6 +50,11 @@ export class SidenavComponent {
 			label: 'Usuarios',
 			route: 'users',
 		},
+		{
+			icon: 'business',
+			label: 'Sedes',
+			route: 'branches',
+		},
 	];
 
 	/**
