@@ -12,7 +12,6 @@ Este es el frontend de la plataforma para gestión de una escuela de condicción
 - RxJS
 - FormBuilder y Reactive Forms
 - Arquitectura modular (core, shared, pages, etc.)
-- Validaciones personalizadas con `class-validator` vía DTOs
 - Diálogos reutilizables (confirmación, formularios)
 - Interfaz adaptable y responsive
 
