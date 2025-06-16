@@ -5,6 +5,6 @@ export interface Branch {
 	phone: string | null;
 	mobile: string;
 	address: string;
-	commune: string;
+	district: string;
 	city: string;
 }
