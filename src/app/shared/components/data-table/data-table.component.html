@@ -29,7 +29,16 @@
 				<th mat-header-cell *matHeaderCellDef>
 					{{ column.header }}
 				</th>
-				<td mat-cell *matCellDef="let element">
+				<td
+					mat-cell
+					*matCellDef="let element"
+					[ngClass]="{
+						'disabled-cell':
+							column.def !== 'actions' &&
+							element.hasOwnProperty('isActive') &&
+							!element.isActive,
+					}"
+				>
 					<!-- Usa template si existe -->
 					<ng-container
 						*ngIf="customTemplates[column.def]; else defaultCell"

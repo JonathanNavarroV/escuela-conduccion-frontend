@@ -20,3 +20,9 @@
 		pointer-events: all;
 	}
 }
+
+.disabled-cell {
+	opacity: 0.5;
+	text-decoration: line-through;
+	pointer-events: none;
+}
