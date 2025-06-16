@@ -50,9 +50,21 @@
 						<mat-icon>edit</mat-icon>
 						<span>Editar</span>
 					</button>
-					<button mat-menu-item (click)="openConfirmDeleteDialog(actions.id)">
-						<mat-icon>delete</mat-icon>
-						<span>Eliminar</span>
+					<button
+						mat-menu-item
+						*ngIf="!actions.isActive"
+						(click)="openConfirmActivateDialog(actions.id)"
+					>
+						<mat-icon>toggle_on</mat-icon>
+						<span>Activar</span>
+					</button>
+					<button
+						mat-menu-item
+						*ngIf="actions.isActive"
+						(click)="openConfirmDeactivateDialog(actions.id)"
+					>
+						<mat-icon>toggle_off</mat-icon>
+						<span>Desactivar</span>
 					</button>
 				</mat-menu>
 			</ng-template>

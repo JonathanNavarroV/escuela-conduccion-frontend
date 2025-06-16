@@ -94,14 +94,27 @@ export class UserService {
 	}
 
 	/**
-	 * Elimina un usuario por su ID.
+	 * Activar un alumno por su ID.
 	 *
-	 * @param userId - ID del usuario que se desea eliminar.
-	 * @returns Un `Observable` que emite la respuesta del servidor al eliminar el usuario.
+	 * @param userId - ID del usuario que se desea activar.
+	 * @returns  Un `Observable` que emite la respuesta del servidor al activar el usuario.
 	 */
-	public deleteUser(userId: string): Observable<ApiResponse<unknown>> {
-		return this.http.delete<ApiResponse<unknown>>(
-			`${environment.apiUrl}/users/${userId}`,
+	public activateUser(userId: string): Observable<ApiResponse<User>> {
+		return this.http.patch<ApiResponse<User>>(
+			`${environment.apiUrl}/users/${userId}/activate`,
+			null,
+		);
+	}
+	/**
+	 * Desactivar un alumno por su ID.
+	 *
+	 * @param userId - ID del usuario que se desea desactivar.
+	 * @returns  Un `Observable` que emite la respuesta del servidor al desactivar el usuario.
+	 */
+	public deactivateUser(userId: string): Observable<ApiResponse<User>> {
+		return this.http.patch<ApiResponse<User>>(
+			`${environment.apiUrl}/users/${userId}/deactivate`,
+			null,
 		);
 	}
 }

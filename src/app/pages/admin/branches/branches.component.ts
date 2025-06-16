@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +23,7 @@ import { UpdateBranchDialogComponent } from './dialogs/update-branch-dialog/upda
 	selector: 'app-branches',
 	standalone: true,
 	imports: [
+		CommonModule,
 		MatTableModule,
 		MatIconModule,
 		MatMenuModule,
@@ -156,19 +158,19 @@ export class BranchesComponent implements OnInit {
 	}
 
 	/**
-	 * Abre un cuadro de diálogo para confirmar la eliminación de una sede.
+	 * Abre un cuadro de diálogo para confirmar la desactivación de una sede.
 	 *
-	 * @param branchId - ID de la sede que se desea eliminar.
+	 * @param branchId - ID de la sede que se desea desactivar.
 	 *
-	 * Si se confirma la acción, se envía una solicitud al backend para eliminar la sede usando `BranchService`.
+	 * Si se confirma la acción, se envía una solicitud al backend para desactivar la sede usando `BranchService`.
 	 *
-	 * - Si la eliminación es exitosa, se recarga la lista de sedes.
+	 * - Si la desactivación es exitosa, se recarga la lista de sedes.
 	 * - Si ocurre un error, este se registra en la consola.
 	 */
-	protected openConfirmDeleteDialog(branchId: string): void {
+	protected openConfirmDeactivateDialog(branchId: string): void {
 		const dialogData: ConfirmDialogData = {
-			title: 'Eliminar sede',
-			message: '¿Seguro que desea ekiminar esta sede?',
+			title: 'Desactivar sede',
+			message: '¿Seguro que desea desactivar esta sede?',
 		};
 
 		this.dialog
@@ -178,13 +180,49 @@ export class BranchesComponent implements OnInit {
 			.afterClosed()
 			.subscribe((confirmed: boolean) => {
 				if (confirmed) {
-					this.branchService.deleteBranch(branchId).subscribe({
+					this.branchService.deactivateBranch(branchId).subscribe({
 						next: (apiResponse) => {
-							console.log('Sede eliminada: ', apiResponse.data);
+							console.log('Sede desactivada: ', apiResponse.data);
 							this.getBranches();
 						},
 						error: (error) => {
-							console.error('Error al eliminar sede', error);
+							console.error('Error al desactivar sede', error);
+						},
+					});
+				}
+			});
+	}
+
+	/**
+	 * Abre un cuadro de diálogo para confirmar la activación de una sede.
+	 *
+	 * @param branchId - ID de la sede que se desea activar.
+	 *
+	 * Si se confirma la acción, se envía una solicitud al backend para activar la sede usando `BranchService`.
+	 *
+	 * - Si la activación es exitosa, se recarga la lista de sedes.
+	 * - Si ocurre un error, este se registra en la consola.
+	 */
+	protected openConfirmActivateDialog(branchId: string): void {
+		const dialogData: ConfirmDialogData = {
+			title: 'Activar sede',
+			message: '¿Seguro que desea activar esta sede?',
+		};
+
+		this.dialog
+			.open(ConfirmActionDialogComponent, {
+				data: dialogData,
+			})
+			.afterClosed()
+			.subscribe((confirmed: boolean) => {
+				if (confirmed) {
+					this.branchService.activateBranch(branchId).subscribe({
+						next: (apiResponse) => {
+							console.log('Sede activada: ', apiResponse.data);
+							this.getBranches();
+						},
+						error: (error) => {
+							console.error('Error al activar sede', error);
 						},
 					});
 				}

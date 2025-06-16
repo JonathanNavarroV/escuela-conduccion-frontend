@@ -88,14 +88,27 @@ export class BranchService {
 	}
 
 	/**
-	 * Elimina una sede por su ID.
+	 * Activar una sede por su ID.
 	 *
-	 * @param branchId - ID de la sede que se desea eliminar.
-	 * @returns Un `Observable` que emite la respuesta del servidor al eliminar de la sede
+	 * @param branchId - ID de la sede que se desea activar.
+	 * @returns  Un `Observable` que emite la respuesta del servidor al activar la sede.
 	 */
-	public deleteBranch(branchId: string): Observable<ApiResponse<unknown>> {
-		return this.http.delete<ApiResponse<unknown>>(
-			`${environment.apiUrl}/branches/${branchId}`,
+	public activateBranch(branchId: string): Observable<ApiResponse<Branch>> {
+		return this.http.patch<ApiResponse<Branch>>(
+			`${environment.apiUrl}/branches/${branchId}/activate`,
+			null,
+		);
+	}
+	/**
+	 * Desactivar una sede por su ID.
+	 *
+	 * @param branchId - ID de la sede que se desea desactivar.
+	 * @returns  Un `Observable` que emite la respuesta del servidor al desactivar la sede.
+	 */
+	public deactivateBranch(branchId: string): Observable<ApiResponse<Branch>> {
+		return this.http.patch<ApiResponse<Branch>>(
+			`${environment.apiUrl}/branches/${branchId}/deactivate`,
+			null,
 		);
 	}
 }

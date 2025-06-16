@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,6 +24,7 @@ import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-u
 	selector: 'app-users',
 	standalone: true,
 	imports: [
+		CommonModule,
 		MatTableModule,
 		MatIconModule,
 		MatMenuModule,
@@ -162,19 +164,19 @@ export class UsersComponent implements OnInit {
 	}
 
 	/**
-	 * Abre un cuadro de diálogo para confirmar la eliminación de un usuario.
+	 * Abre un cuadro de diálogo para confirmar la desactivación de un usuario.
 	 *
-	 * @param userId - ID del usuario que se desea eliminar.
+	 * @param userId - ID del usuario que se desea desactivar.
 	 *
-	 * Si se confirma la acción, se envía una solicitud al backend para eliminar al usuario usando `UserService`.
+	 * Si se confirma la acción, se envía una solicitud al backend para desactivar el usuario usando `UserService`.
 	 *
-	 * - Si la eliminación es exitosa, se recarga la lista de usuarios.
+	 * - Si la desactivación es exitosa, se recarga la lista de usuarios.
 	 * - Si ocurre un error, este se registra en la consola.
 	 */
-	protected openConfirmDeleteDialog(userId: string): void {
+	protected openConfirmDeactivateDialog(userId: string): void {
 		const dialogData: ConfirmDialogData = {
-			title: 'Eliminar usuario',
-			message: '¿Seguro que deseas eliminar a este usuario?',
+			title: 'Desactivar usuario',
+			message: '¿Seguro que desea desactivar este usuario?',
 		};
 
 		this.dialog
@@ -184,13 +186,49 @@ export class UsersComponent implements OnInit {
 			.afterClosed()
 			.subscribe((confirmed: boolean) => {
 				if (confirmed) {
-					this.userService.deleteUser(userId).subscribe({
+					this.userService.deactivateUser(userId).subscribe({
 						next: (apiResponse) => {
-							console.log('Usuario eliminado: ', apiResponse.data);
+							console.log('Usuario desactivado: ', apiResponse.data);
 							this.getUsers();
 						},
 						error: (error) => {
-							console.error('Error al eliminar usuario', error);
+							console.error('Error al desactivar usuario', error);
+						},
+					});
+				}
+			});
+	}
+
+	/**
+	 * Abre un cuadro de diálogo para confirmar la activación de un usuario.
+	 *
+	 * @param userId - ID del usuario que se desea activar.
+	 *
+	 * Si se confirma la acción, se envía una solicitud al backend para activar el usuario usando `BranchService`.
+	 *
+	 * - Si la activación es exitosa, se recarga la lista de usuarios.
+	 * - Si ocurre un error, este se registra en la consola.
+	 */
+	protected openConfirmActivateDialog(userId: string): void {
+		const dialogData: ConfirmDialogData = {
+			title: 'Activar usuario',
+			message: '¿Seguro que desea activar este usuario?',
+		};
+
+		this.dialog
+			.open(ConfirmActionDialogComponent, {
+				data: dialogData,
+			})
+			.afterClosed()
+			.subscribe((confirmed: boolean) => {
+				if (confirmed) {
+					this.userService.activateUser(userId).subscribe({
+						next: (apiResponse) => {
+							console.log('Usuario activado: ', apiResponse.data);
+							this.getUsers();
+						},
+						error: (error) => {
+							console.error('Error al activar usuario', error);
 						},
 					});
 				}
