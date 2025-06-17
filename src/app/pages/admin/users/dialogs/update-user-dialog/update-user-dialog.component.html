@@ -40,7 +40,7 @@
 					<input matInput formControlName="password" type="password" />
 					<mat-error
 						*ngIf="updateUserForm.get('password')?.hasError('minlength')"
-						>La contraseña debe tener al menos
+						>Debe tener al menos
 						{{
 							updateUserForm.get("password")?.errors?.["minlength"]
 								?.requiredLength

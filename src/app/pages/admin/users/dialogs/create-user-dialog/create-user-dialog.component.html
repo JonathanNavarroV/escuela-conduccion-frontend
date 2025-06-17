@@ -59,7 +59,7 @@
 					>
 					<mat-error
 						*ngIf="createUserForm.get('password')?.hasError('minlength')"
-						>La contraseña debe tener al menos
+						>Debe tener al menos
 						{{
 							createUserForm.get("password")?.errors?.["minlength"]
 								?.requiredLength
