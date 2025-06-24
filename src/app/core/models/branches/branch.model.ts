@@ -5,6 +5,5 @@ export interface Branch {
 	phone: string | null;
 	mobile: string;
 	address: string;
-	district: string;
-	city: string;
+	districtId: string;
 }

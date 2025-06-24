@@ -1,11 +1,10 @@
 export interface CreateBranchDto {
 	name: string;
 	email: string;
-	phone: string;
+	phone: string | null;
 	mobile: string;
 	address: string;
-	district: string;
-	city: string;
+	districtId: string;
 }
 
 export type UpdateBranchDto = CreateBranchDto;

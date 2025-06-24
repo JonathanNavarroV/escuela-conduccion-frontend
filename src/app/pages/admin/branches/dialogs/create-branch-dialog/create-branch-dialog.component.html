@@ -1,1 +1,126 @@
-<p>create-branch-dialog works!</p>
+<h2 mat-dialog-title class="m-0">Crear sede</h2>
+<form [formGroup]="createBranchForm">
+	<mat-dialog-content class="pt-0">
+		<div class="row gx-3 gy-2">
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Nombre</mat-label>
+					<input matInput formControlName="name" type="text" />
+					<mat-error *ngIf="createBranchForm.get('name')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+					<mat-error *ngIf="createBranchForm.get('name')?.hasError('maxlength')"
+						>Máximo
+						{{
+							createBranchForm.get("name")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Email</mat-label>
+					<input matInput formControlName="email" type="text" />
+					<mat-error *ngIf="createBranchForm.get('email')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+					<mat-error
+						*ngIf="createBranchForm.get('email')?.hasError('strictEmail')"
+						>Email inválido</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Teléfono fijo</mat-label>
+					<input matInput formControlName="phone" type="text" />
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Teléfono móvil</mat-label>
+					<input matInput formControlName="mobile" type="text" />
+					<mat-error
+						*ngIf="createBranchForm.get('mobile')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6">
+				<mat-form-field class="w-100">
+					<mat-label>Dirección</mat-label>
+					<input matInput formControlName="address" type="text" />
+					<mat-error
+						*ngIf="createBranchForm.get('address')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6" *ngIf="regionLevel">
+				<mat-form-field class="w-100">
+					<mat-label>{{ regionLabel }}</mat-label>
+					<mat-select formControlName="region">
+						<mat-option *ngFor="let region of regions" [value]="region.id">{{
+							region.name
+						}}</mat-option>
+					</mat-select>
+					<mat-error
+						*ngIf="createBranchForm.get('region')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6" *ngIf="provinceLevel">
+				<mat-form-field class="w-100">
+					<mat-label>{{ provinceLabel }}</mat-label>
+					<mat-select formControlName="province">
+						<mat-option
+							*ngFor="let province of provinces"
+							[value]="province.id"
+							>{{ province.name }}</mat-option
+						>
+					</mat-select>
+					<mat-error
+						*ngIf="createBranchForm.get('province')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+				</mat-form-field>
+			</div>
+
+			<div class="col-6" *ngIf="districtLevel">
+				<mat-form-field class="w-100">
+					<mat-label>{{ districtLabel }}</mat-label>
+					<mat-select formControlName="district">
+						<mat-option
+							*ngFor="let district of districts"
+							[value]="district.id"
+							>{{ district.name }}</mat-option
+						>
+					</mat-select>
+					<mat-error
+						*ngIf="createBranchForm.get('district')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+				</mat-form-field>
+			</div>
+		</div>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+		<button mat-button mat-dialog-close color="warn">Cancelar</button>
+		<button
+			mat-button
+			[disabled]="createBranchForm.invalid"
+			(click)="onSubmit()"
+		>
+			Crear
+		</button>
+	</mat-dialog-actions>
+</form>
