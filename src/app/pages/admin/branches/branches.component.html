@@ -31,7 +31,7 @@
 			[displayedColumns]="['name', 'email', 'address', 'actions']"
 			[customTemplates]="{ actions: actionsTemplate }"
 			[isLoading]="isLoadingDataTable"
-			(searchChanged)="getBranchesByTerm($event)"
+			(searchChanged)="onSearchChanged($event)"
 		>
 			<!-- Acciones de cabecera -->
 			<ng-template #actionHeaderTemplate>

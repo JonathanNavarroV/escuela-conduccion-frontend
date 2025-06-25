@@ -5,7 +5,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { firstValueFrom } from 'rxjs';
+import {
+	BehaviorSubject,
+	debounceTime,
+	distinctUntilChanged,
+	firstValueFrom,
+	switchMap,
+	tap,
+} from 'rxjs';
+import { DEBOUNCE_TIMES } from '../../../core/constants/debounce-times';
 import {
 	CreateBranchDto,
 	UpdateBranchDto,
@@ -47,10 +55,51 @@ export class BranchesComponent implements OnInit {
 	protected isLoadingDataTable = false;
 
 	/**
+	 * Stream reactivo que emite los términos de búsqueda ingresados.
+	 *
+	 * Este `BehaviorSubject` se observa con `initSearchListener` para
+	 * ejecutar búsquedas con debounce y cancelar peticiones anteriores.
+	 */
+	private search$ = new BehaviorSubject<string>('');
+
+	/**
 	 * Carga inicialmente todas las sedes.
 	 */
 	public ngOnInit(): void {
+		this.initSearchListener();
 		this.getBranches();
+	}
+
+	/**
+	 * Inicializa el flujo reactivo de búsqueda de sedes.
+	 *
+	 * - Aplica un `debounceTime` para evitar peticiones excesivas.
+	 * - Usa `distinctUntilChanged` para evitar búsquedas duplicadas.
+	 * - Emite `getBranches` o `getBranchesBySearchTerm` dependiendo del input.
+	 * - Muestra y oculta el indicador de carga (`isLoadingDataTable`).
+	 */
+	private initSearchListener(): void {
+		this.search$
+			.pipe(
+				debounceTime(DEBOUNCE_TIMES.branchSearch),
+				distinctUntilChanged(),
+				tap(() => (this.isLoadingDataTable = true)),
+				switchMap((term) =>
+					term.length === 0
+						? this.branchService.getBranches()
+						: this.branchService.getBranchesBySearchTerm(term),
+				),
+			)
+			.subscribe({
+				next: (apiResponse) => {
+					this.branchesDataSource.data = apiResponse.data ?? [];
+					this.isLoadingDataTable = false;
+				},
+				error: (error) => {
+					console.error('Error al buscar usuarios:', error);
+					this.isLoadingDataTable = false;
+				},
+			});
 	}
 
 	/**
@@ -71,27 +120,12 @@ export class BranchesComponent implements OnInit {
 	}
 
 	/**
-	 * Busca sedes por nombre.
-	 * Si el input está vacío, vuelve a cargar todas las sedes.
+	 * Emite un nuevo término de búsqueda al stream `search$`.
 	 *
-	 * @param {string} searchTerm - Nombre usuario como criterio de búsqueda.
+	 * @param {string} searchTerm - Término de búsqueda ingresado.
 	 */
-	public async getBranchesByTerm(searchTerm: string): Promise<void> {
-		if (searchTerm.length === 0) {
-			this.getBranches();
-		} else {
-			this.isLoadingDataTable = true;
-			try {
-				const apiResponse: ApiResponse<Branch[]> = await firstValueFrom(
-					this.branchService.getBranchesBySearchTerm(searchTerm),
-				);
-				this.branchesDataSource.data = apiResponse.data ?? [];
-			} catch (error) {
-				console.error('Error al obtener los usuarios: ', error);
-			} finally {
-				this.isLoadingDataTable = false;
-			}
-		}
+	public async onSearchChanged(searchTerm: string): Promise<void> {
+		this.search$.next(searchTerm);
 	}
 
 	/**

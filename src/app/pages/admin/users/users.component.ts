@@ -5,7 +5,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { firstValueFrom } from 'rxjs';
+import {
+	BehaviorSubject,
+	debounceTime,
+	distinctUntilChanged,
+	firstValueFrom,
+	switchMap,
+	tap,
+} from 'rxjs';
+import { DEBOUNCE_TIMES } from '../../../core/constants/debounce-times';
 import { DEFAULT_USER_IMAGE } from '../../../core/constants/image-paths';
 import { ApiResponse } from '../../../core/models/common/api-response.model';
 import { ConfirmDialogData } from '../../../core/models/common/confirm-dialog-data';
@@ -53,10 +61,52 @@ export class UsersComponent implements OnInit {
 	protected isLoadingDataTable = false;
 
 	/**
-	 * Carga inicialmente todos los usuarios.
+	 * Stream reactivo que emite los términos de búsqueda ingresados.
+	 *
+	 * Este `BehaviorSubject` se observa con `initSearchListener` para
+	 * ejecutar búsquedas con debounce y cancelar peticiones anteriores.
+	 */
+	private search$ = new BehaviorSubject<string>('');
+
+	/**
+	 * - Inicia el listener de búsqueda reactiva.
+	 * - Carga la lista inicial de usuarios.
 	 */
 	public ngOnInit(): void {
+		this.initSearchListener();
 		this.getUsers();
+	}
+
+	/**
+	 * Inicializa el flujo reactivo de búsqueda de usuarios.
+	 *
+	 * - Aplica un `debounceTime` para evitar peticiones excesivas.
+	 * - Usa `distinctUntilChanged` para evitar búsquedas duplicadas.
+	 * - Emite `getUsers` o `getUsersBySearchTerm` dependiendo del input.
+	 * - Muestra y oculta el indicador de carga (`isLoadingDataTable`).
+	 */
+	private initSearchListener(): void {
+		this.search$
+			.pipe(
+				debounceTime(DEBOUNCE_TIMES.userSearch),
+				distinctUntilChanged(),
+				tap(() => (this.isLoadingDataTable = true)),
+				switchMap((term) =>
+					term.length === 0
+						? this.userService.getUsers()
+						: this.userService.getUsersBySearchTerm(term),
+				),
+			)
+			.subscribe({
+				next: (apiResponse) => {
+					this.usersDataSource.data = apiResponse.data ?? [];
+					this.isLoadingDataTable = false;
+				},
+				error: (error) => {
+					console.error('Error al buscar usuarios:', error);
+					this.isLoadingDataTable = false;
+				},
+			});
 	}
 
 	/**
@@ -77,27 +127,12 @@ export class UsersComponent implements OnInit {
 	}
 
 	/**
-	 * Busca usuarios por nombre completo.
-	 * Si el input está vacío, vuelve a cargar todos los usuarios.
+	 * Emite un nuevo término de búsqueda al stream `search$`.
 	 *
-	 * @param {string} searchTerm - Nombre completo usado como criterio de búsqueda.
+	 * @param {string} searchTerm - Término de búsqueda ingresado.
 	 */
-	public async getUsersBySearchTerm(searchTerm: string): Promise<void> {
-		if (searchTerm.length === 0) {
-			this.getUsers();
-		} else {
-			this.isLoadingDataTable = true;
-			try {
-				const apiResponse: ApiResponse<User[]> = await firstValueFrom(
-					this.userService.getUsersBySearchTerm(searchTerm),
-				);
-				this.usersDataSource.data = apiResponse.data ?? [];
-			} catch (error) {
-				console.error('Error al obtener los usuarios: ', error);
-			} finally {
-				this.isLoadingDataTable = false;
-			}
-		}
+	public async onSearchChanged(searchTerm: string): Promise<void> {
+		this.search$.next(searchTerm);
 	}
 
 	/**
