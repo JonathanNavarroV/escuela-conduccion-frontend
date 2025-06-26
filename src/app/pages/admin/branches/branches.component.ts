@@ -63,11 +63,10 @@ export class BranchesComponent implements OnInit {
 	private search$ = new BehaviorSubject<string>('');
 
 	/**
-	 * Carga inicialmente todas las sedes.
+	 * Inicia el listener de búsqueda reactiva.
 	 */
 	public ngOnInit(): void {
 		this.initSearchListener();
-		this.getBranches();
 	}
 
 	/**

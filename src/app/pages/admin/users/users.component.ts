@@ -70,11 +70,9 @@ export class UsersComponent implements OnInit {
 
 	/**
 	 * - Inicia el listener de búsqueda reactiva.
-	 * - Carga la lista inicial de usuarios.
 	 */
 	public ngOnInit(): void {
 		this.initSearchListener();
-		this.getUsers();
 	}
 
 	/**
