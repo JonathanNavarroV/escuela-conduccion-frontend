@@ -12,6 +12,6 @@ export interface CreateUserDto {
 export interface UpdateUserDto
 	extends Omit<CreateUserDto, 'password' | 'photo' | 'role'> {
 	password?: string;
-	photo?: string;
+	photo: string | null;
 	role?: string;
 }

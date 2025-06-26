@@ -157,6 +157,7 @@ export class UpdateUserDialogComponent implements OnInit {
 			lastNameFather: formValue.lastNameFather,
 			lastNameMother: formValue.lastNameMother,
 			email: formValue.email,
+			photo: formValue.photo,
 			branchIds: formValue.branchIds,
 		};
 
@@ -164,8 +165,8 @@ export class UpdateUserDialogComponent implements OnInit {
 			userToUpdate.password = formValue.password.trim();
 		}
 
-		if (formValue.photo?.trim()) {
-			userToUpdate.photo = formValue.photo.trim();
+		if (!formValue.photo?.trim()) {
+			userToUpdate.photo = null;
 		}
 
 		this.dialogRef.close(userToUpdate);
