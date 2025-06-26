@@ -67,7 +67,6 @@ export class UpdateUserDialogComponent implements OnInit {
 		this.loadRoles();
 		this.loadBranches();
 		this.loadUser();
-		this.setBranchValidation();
 	}
 
 	/**
@@ -111,6 +110,8 @@ export class UpdateUserDialogComponent implements OnInit {
 			role: user.role,
 			branchIds: user.branchIds,
 		});
+
+		this.setBranchValidation();
 	}
 
 	private setBranchValidation(): void {
