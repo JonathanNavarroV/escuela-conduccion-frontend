@@ -70,7 +70,13 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga la lista de roles disponibles desde el servicio y la asigna a la propiedad local.
+	 * Carga los roles disponibles desde el backend y los asigna a la propiedad `roles`.
+	 *
+	 * - Obtiene los roles mediante el servicio `userService`.
+	 * - Guarda los roles recibidos en la propiedad `roles`.
+	 *
+	 * @returns {Promise<void>}
+	 * @async
 	 */
 	private async loadRoles(): Promise<void> {
 		const apiResponse: ApiResponse<string[]> = await firstValueFrom(
@@ -81,7 +87,13 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga la lista de sedes disponibles desde el servicio y la asigna a la propiedad local.
+	 * Carga todas las sucursales desde el backend y las asigna a la propiedad `branches`.
+	 *
+	 * - Realiza la llamada al servicio `branchService`.
+	 * - Extrae los datos desde la respuesta (`ApiResponse<Branch[]>`) y los asigna.
+	 *
+	 * @returns {Promise<void>}
+	 * @async
 	 */
 	private async loadBranches(): Promise<void> {
 		const apiResponse: ApiResponse<Branch[]> = await firstValueFrom(
@@ -92,7 +104,14 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga el usuario desde el servicio
+	 * Carga los datos de un usuario desde el backend y los asigna al formulario `updateUserForm`.
+	 *
+	 * - Obtiene el usuario por su ID usando `userService`.
+	 * - Asigna los datos al formulario mediante `patchValue`.
+	 * - Aplica las validaciones correspondientes con `setBranchValidation`.
+	 *
+	 * @returns {Promise<void>}
+	 * @async
 	 */
 	private async loadUser(): Promise<void> {
 		const apiResponse: ApiResponse<User> = await firstValueFrom(
@@ -114,6 +133,16 @@ export class UpdateUserDialogComponent implements OnInit {
 		this.setBranchValidation();
 	}
 
+	/**
+	 * Establece las validaciones para el campo `branchIds` del formulario `updateUserForm`
+	 * en función del rol del usuario.
+	 *
+	 * - Si el usuario es administrador de sucursal (`isBranchAdmin`), el campo se marca como requerido.
+	 * - Si no lo es, se eliminan sus validaciones y se limpia su valor.
+	 * - Luego se actualiza su estado de validación.
+	 *
+	 * @returns {void}
+	 */
 	private setBranchValidation(): void {
 		const branchControl = this.updateUserForm.get('branchIds');
 
@@ -139,10 +168,12 @@ export class UpdateUserDialogComponent implements OnInit {
 	 * Maneja el envío del formulario de actualización de usuario.
 	 *
 	 * - Valida todos los controles del formulario.
-	 * - Si el formulario es inválido, marca todos los campos como "tocados" para mostrar errores.
-	 * - Si es válido, construye un `UpdateUserDto` con los datos ingresados.
-	 * - Elimina `password` y `photo` si vienen vacíos (los convierte a `undefined` para evitar sobrescribir datos en el backend).
-	 * - Cierra el diálogo y retorna el DTO al componente padre.
+	 * - Si el formulario es inválido, marca todos los campos como tocados para mostrar errores.
+	 * - Construye un objeto `UpdateUserDto` con los datos ingresados.
+	 * - Convierte `password` vacío en omitido y `photo` vacío en `null` para evitar sobrescribir datos.
+	 * - Cierra el diálogo retornando el DTO al componente padre.
+	 *
+	 * @returns {void}
 	 */
 	protected onSubmit(): void {
 		// Mostrar errores de controles
