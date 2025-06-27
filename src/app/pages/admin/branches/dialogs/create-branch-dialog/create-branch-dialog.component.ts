@@ -70,6 +70,13 @@ export class CreateBranchDialogComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * Ciclo de vida de inicialización del componente.
+	 *
+	 * Descripción detallada:
+	 * - Configura los campos de localización dinámicamente según los niveles disponibles.
+	 * - Establece los listeners para reaccionar a cambios en región y provincia.
+	 */
 	public ngOnInit(): void {
 		this.configureLocationField();
 		this.setupRegionListener();
