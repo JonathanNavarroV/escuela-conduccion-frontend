@@ -61,7 +61,7 @@ export class CreateBranchDialogComponent implements OnInit {
 				'',
 				[Validators.required, Validators.maxLength(255), strictEmailValidator],
 			],
-			phone: ['', Validators.maxLength(30)],
+			phone: ['', [Validators.maxLength(30)]],
 			mobile: ['', [Validators.required, Validators.maxLength(30)]],
 			address: ['', [Validators.required, Validators.maxLength(255)]],
 			region: [''],
@@ -77,13 +77,17 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Configura dinámicamente los campos de ubicación (región, provincia, comuna)
-	 * según los niveles definidos en el sistema.
+	 * Configura dinámicamente los campos de ubicación del formulario de creación de sede.
 	 *
-	 * - Asigna los niveles detectados a propiedades locales (`regionLevel`, `provinceLevel`, `districtLevel`).
-	 * - Establece las etiquetas (`label_key`) para los `mat-label` dinámicos.
-	 * - Aplica validadores `required` según el nivel activo.
-	 * - Carga regiones o provincias si corresponde.
+	 * Descripción detallada:
+	 * - Carga los niveles de localización (región, provincia, distrito).
+	 * - Asigna las etiquetas correspondientes según el nivel.
+	 * - Aplica validadores de requerimiento según los niveles existentes.
+	 * - Carga regiones o provincias dependiendo del caso.
+	 *
+	 * @returns {Promise<void>} Promesa que se resuelve al completar la configuración.
+	 *
+	 * @async
 	 */
 	private async configureLocationField(): Promise<void> {
 		const locationLevels = await this.loadLocationLevels();
@@ -113,9 +117,11 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Escucha los cambios en el campo de región.
-	 * Cuando el usuario selecciona una región, se cargan las provincias correspondientes
-	 * y se habilita el campo de provincia.
+	 * Configura el listener del campo `region` para reaccionar a los cambios de valor.
+	 *
+	 * Descripción detallada:
+	 * - Al seleccionar una región, carga las provincias correspondientes.
+	 * - Reinicia y habilita el campo `province`.
 	 */
 	private setupRegionListener(): void {
 		const regionControl = this.createBranchForm.get('region');
@@ -131,9 +137,11 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Escucha los cambios en el campo de provincia.
-	 * Cuando el usuario selecciona una provincia, se cargan las comunas correspondientes
-	 * y se habilita el campo de comuna.
+	 * Configura el listener del campo `province` para reaccionar a los cambios de valor.
+	 *
+	 * Descripción detallada:
+	 * - Al seleccionar una provincia, carga los distritos correspondientes.
+	 * - Reinicia y habilita el campo `district`.
 	 */
 	private setupProvinceListener(): void {
 		const provinceControl = this.createBranchForm.get('province');
@@ -149,7 +157,15 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga la lista de regiones disponibles desde el servicio y la asigna a la propiedad local.
+	 * Carga la lista de regiones disponibles desde el backend.
+	 *
+	 * Descripción detallada:
+	 * - Realiza una llamada al servicio para obtener las regiones.
+	 * - Asigna las regiones recibidas a la propiedad `regions`.
+	 *
+	 * @returns {Promise<void>} No retorna valor; finaliza al completar la carga de regiones.
+	 *
+	 * @async
 	 */
 	private async loadRegions(): Promise<void> {
 		const apiResponse: ApiResponse<Region[]> = await firstValueFrom(
@@ -160,9 +176,17 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga las provincias asociadas a una región específica.
+	 * Carga la lista de provincias desde el backend, filtradas por región si se especifica.
 	 *
-	 * @param regionId ID de la región seleccionada.
+	 * Descripción detallada:
+	 * - Si se proporciona un `regionId`, obtiene solo las provincias asociadas a esa región.
+	 * - Si no, obtiene todas las provincias disponibles.
+	 * - Asigna el resultado a la propiedad `provinces`.
+	 *
+	 * @param {string} [regionId] - ID de la región para filtrar las provincias (opcional).
+	 * @returns {Promise<void>} Promesa que se resuelve al completar la carga.
+	 *
+	 * @async
 	 */
 	private async loadProvinces(
 		regionId: string | undefined = undefined,
@@ -181,9 +205,16 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga las comunas (distritos) asociadas a una provincia específica.
+	 * Carga la lista de distritos asociados a una provincia específica.
 	 *
-	 * @param provinceId ID de la provincia seleccionada.
+	 * Descripción detallada:
+	 * - Realiza una llamada al backend usando el `provinceId` para obtener los distritos correspondientes.
+	 * - Asigna el resultado a la propiedad `districts`.
+	 *
+	 * @param {string} provinceId - ID de la provincia para filtrar los distritos.
+	 * @returns {Promise<void>} Promesa que se resuelve al completar la carga.
+	 *
+	 * @async
 	 */
 	private async loadDistricts(provinceId: string): Promise<void> {
 		const apiResponse: ApiResponse<District[]> = await firstValueFrom(
@@ -194,9 +225,15 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga los niveles de localización configurados en el sistema (como región, provincia, distrito).
+	 * Carga los niveles de localización desde el backend.
 	 *
-	 * @returns Lista de niveles de localización.
+	 * Descripción detallada:
+	 * - Obtiene información sobre los niveles de ubicación (por ejemplo: región, provincia, distrito).
+	 * - Devuelve la lista de niveles obtenidos.
+	 *
+	 * @returns {Promise<LocationLevel[]>} Lista de niveles de ubicación disponibles.
+	 *
+	 * @async
 	 */
 	private async loadLocationLevels(): Promise<LocationLevel[]> {
 		const apiResponse: ApiResponse<LocationLevel[]> = await firstValueFrom(
@@ -207,12 +244,13 @@ export class CreateBranchDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Maneja el envío del formulario de creación de sede.
+	 * Procesa el envío del formulario para crear una nueva sede.
 	 *
-	 * - Valida todos los controles del formulario.
-	 * - Si el formulario es inválido, marca todos los campos como "tocados" para mostrar errores.
-	 * - Si es válido, construye un `CreateBranchDto` con los datos ingresados.
-	 * - Cierra el diálogo y retorna el DTO al componente padre.
+	 * Descripción detallada:
+	 * - Valida el formulario y marca todos los controles como tocados si hay errores.
+	 * - Construye un objeto `CreateBranchDto` con los datos ingresados.
+	 * - Omite el campo `phone` si está vacío.
+	 * - Cierra el diálogo enviando el objeto con los datos de la nueva sede.
 	 */
 	protected onSubmit(): void {
 		// Mostrar errores de controles

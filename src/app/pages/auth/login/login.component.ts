@@ -58,10 +58,14 @@ export class LoginComponent {
 	}
 
 	/**
-	 * Alterna la visibilidad de la contraseña en el campo de entrada.
-	 * Cambia el valor de `passwordVisibility` entre `true` y `false`.
+	 * Alterna la visibilidad de la contraseña.
 	 *
-	 * @param event - Evento del mouse que activó la acción. Se usa `stopPropagation()` para evitar que el evento se propage a elementos padres.
+	 * Descripción detallada:
+	 * - Cambia el estado de visibilidad de la contraseña entre visible y oculto.
+	 * - Detiene la propagación del evento para evitar efectos no deseados en elementos padres.
+	 *
+	 * @param {MouseEvent} event - Evento del clic que activa el cambio de visibilidad.
+	 *   Se usa para detener su propagación.
 	 */
 	public togglePasswordVisibility(event: MouseEvent): void {
 		this.passwordVisibility.set(!this.passwordVisibility());
@@ -69,16 +73,22 @@ export class LoginComponent {
 	}
 
 	/**
-	 * Maneja el envío del formulario de login.
+	 * Maneja el envío del formulario de inicio de sesión.
 	 *
-	 * - Valida el formulario.
-	 * - Envía las credenciales al servicio de autenticación.
-	 * - Guarda el token en `localStorage` o `sessionStorage` según el valor de `rememberMe`.
-	 * - Redirige al usuario a `/admin` si el login fue exitoso.
-	 * - Muestra errores del backend mediante `snackbar` si ocurren.
-	 * - Limpia el campo de contraseña si el login falla.
+	 * Descripción detallada:
+	 * - Valida el formulario antes de procesarlo.
+	 * - Envía una solicitud de login al backend con las credenciales ingresadas.
+	 * - Guarda el token de autenticación en `sessionStorage` o `localStorage` según la preferencia del usuario.
+	 * - Redirige al usuario a la sección de administración si el login es exitoso.
+	 * - Muestra un mensaje de error en un snackbar si ocurre algún problema.
 	 *
-	 * @returns {Promise<void>}
+	 * @returns {Promise<void>} No retorna ningún valor directamente.
+	 *   Finaliza al completar el proceso de login, exitoso o con error.
+	 *
+	 * @throws {Error} Si ocurre un error en la solicitud al backend.
+	 *   El mensaje se muestra en un snackbar si está disponible, o se loguea en consola.
+	 *
+	 * @async
 	 */
 	public async onSubmit(): Promise<void> {
 		this.isLoading = true;

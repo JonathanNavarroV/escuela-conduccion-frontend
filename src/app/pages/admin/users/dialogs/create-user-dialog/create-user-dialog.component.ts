@@ -57,6 +57,14 @@ export class CreateUserDialogComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * Inicializa el componente cargando datos y configurando validaciones.
+	 *
+	 * Descripción detallada:
+	 * - Carga la lista de roles disponibles mediante `loadRoles()`.
+	 * - Carga la lista de sedes mediante `loadBranches()`.
+	 * - Configura validaciones dependientes del rol mediante `setupRoleDepedentValidation()`.
+	 */
 	public ngOnInit(): void {
 		this.loadRoles();
 		this.loadBranches();
@@ -64,7 +72,15 @@ export class CreateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga la lista de roles disponibles desde el servicio y la asigna a la propiedad local.
+	 * Carga la lista de roles disponibles desde el backend.
+	 *
+	 * Descripción detallada:
+	 * - Realiza una llamada al servicio para obtener los roles.
+	 * - Asigna los roles recibidos a la propiedad `roles`.
+	 *
+	 * @returns {Promise<void>} No retorna valor; finaliza al completar la carga de roles.
+	 *
+	 * @async
 	 */
 	private async loadRoles(): Promise<void> {
 		const apiResponse: ApiResponse<string[]> = await firstValueFrom(
@@ -75,7 +91,15 @@ export class CreateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga la lista de sedes disponibles desde el servicio y la asigna a la propiedad local.
+	 * Carga la lista de sedes disponibles desde el backend.
+	 *
+	 * Descripción detallada:
+	 * - Realiza una llamada al servicio para obtener las sedes.
+	 * - Asigna las sedes recibidas a la propiedad `branches`.
+	 *
+	 * @returns {Promise<void>} No retorna valor; finaliza al completar la carga de sedes.
+	 *
+	 * @async
 	 */
 	private async loadBranches(): Promise<void> {
 		const apiResponse: ApiResponse<Branch[]> = await firstValueFrom(
@@ -86,12 +110,13 @@ export class CreateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Configura las validaciones condicionales del formulario según el rol seleccionado.
+	 * Configura validaciones dinámicas en el formulario según el rol seleccionado.
 	 *
-	 * - Si el rol es `branch_admin`, se aplica la validación `required` al campo `branchIds`.
-	 * - Si el rol no es `branch_admin`, se limpian los validadores de `branchIds` y su valor se restablece a un arreglo vacío.
-	 *
-	 * Esta función se suscribe a los cambios del campo `role` y actualiza dinámicamente las reglas del campo `branchIds`.
+	 * Descripción detallada:
+	 * - Escucha cambios en el campo `role` del formulario `createUserForm`.
+	 * - Si el rol es de tipo administrador de sede (`isBranchAdmin`), establece el campo `branchIds` como obligatorio.
+	 * - Si no, elimina las validaciones y limpia el valor de `branchIds`.
+	 * - Actualiza el estado y validez del campo después de aplicar cambios.
 	 */
 	private setupRoleDepedentValidation(): void {
 		this.createUserForm.get('role')?.valueChanges.subscribe(() => {
@@ -109,21 +134,24 @@ export class CreateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Retorna `true` si el rol actual seleccionado en el formulario es `branch_admin`.
-	 * Útil para condiciones en plantillas y validaciones reactivas.
+	 * Indica si el rol seleccionado es administrador de sede.
+	 *
+	 * Descripción detallada:
+	 * - Verifica si el valor del campo `role` en el formulario `createUserForm` es `'branch_admin'`.
+	 *
+	 * @returns {boolean} `true` si el rol es `branch_admin`, `false` en caso contrario.
 	 */
 	protected get isBranchAdmin(): boolean {
 		return this.createUserForm.get('role')?.value === 'branch_admin';
 	}
 
 	/**
-	 * Maneja el envío del formulario de creación de usuario.
+	 * Procesa el envío del formulario para crear un nuevo usuario.
 	 *
-	 * - Valida todos los controles del formulario.
-	 * - Si el formulario es inválido, marca todos los campos como "tocados" para mostrar errores.
-	 * - Si es válido, construye un `CreateUserDto` con los datos ingresados.
-	 * - Elimina el valor de `photo` si viene vacío (lo convierte a `undefined` para que pase la validación del backend).
-	 * - Cierra el diálogo y retorna el DTO al componente padre.
+	 * Descripción detallada:
+	 * - Valida el formulario y marca todos los controles como tocados si hay errores para mostrarlos.
+	 * - Construye un objeto `CreateUserDto` con los valores del formulario.
+	 * - Cierra el diálogo enviando el objeto creado como resultado.
 	 */
 	protected onSubmit(): void {
 		// Mostrar errores de controles

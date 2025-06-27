@@ -82,11 +82,9 @@
 				<mat-form-field class="w-100">
 					<mat-label>{{ provinceLabel }}</mat-label>
 					<mat-select formControlName="province">
-						<mat-option
-							*ngFor="let province of provinces"
-							[value]="province.id"
-							>{{ province.name }}</mat-option
-						>
+						<mat-option *ngFor="let province of provinces" [value]="province.id"
+							>{{ province.name }}
+						</mat-option>
 					</mat-select>
 					<mat-error
 						*ngIf="createBranchForm.get('province')?.hasError('required')"
@@ -99,11 +97,9 @@
 				<mat-form-field class="w-100">
 					<mat-label>{{ districtLabel }}</mat-label>
 					<mat-select formControlName="district">
-						<mat-option
-							*ngFor="let district of districts"
-							[value]="district.id"
-							>{{ district.name }}</mat-option
-						>
+						<mat-option *ngFor="let district of districts" [value]="district.id"
+							>{{ district.name }}
+						</mat-option>
 					</mat-select>
 					<mat-error
 						*ngIf="createBranchForm.get('district')?.hasError('required')"

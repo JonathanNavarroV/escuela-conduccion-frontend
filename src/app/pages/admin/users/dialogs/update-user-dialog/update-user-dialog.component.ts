@@ -32,8 +32,8 @@ import { strictEmailValidator } from '../../../../../core/validators/email.valid
 		ReactiveFormsModule,
 		MatDialogModule,
 		MatFormFieldModule,
-		MatSelectModule,
 		MatInputModule,
+		MatSelectModule,
 		MatButtonModule,
 	],
 	templateUrl: './update-user-dialog.component.html',
@@ -44,6 +44,7 @@ export class UpdateUserDialogComponent implements OnInit {
 	private readonly userService = inject(UserService);
 	private readonly branchService = inject(BranchService);
 	private readonly dialogRef = inject(MatDialogRef<UpdateUserDialogComponent>);
+	/** Identificador del usuario recibido como dato en el diálogo (MAT_DIALOG_DATA). */
 	private readonly userId = inject<string>(MAT_DIALOG_DATA);
 
 	protected updateUserForm: FormGroup;
@@ -52,10 +53,10 @@ export class UpdateUserDialogComponent implements OnInit {
 
 	public constructor() {
 		this.updateUserForm = this.formBuilder.group({
-			firstName: [''],
-			lastNameFather: [''],
-			lastNameMother: [''],
-			email: ['', [strictEmailValidator]],
+			firstName: ['', [Validators.required]],
+			lastNameFather: ['', [Validators.required]],
+			lastNameMother: ['', [Validators.required]],
+			email: ['', [Validators.required, strictEmailValidator]],
 			password: ['', [Validators.minLength(6)]],
 			photo: [''],
 			role: [{ value: '', disabled: true }],
@@ -63,6 +64,14 @@ export class UpdateUserDialogComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * Inicializa el componente cargando roles, sedes y datos del usuario.
+	 *
+	 * Descripción detallada:
+	 * - Llama a `loadRoles()` para obtener los roles disponibles.
+	 * - Llama a `loadBranches()` para obtener las sedes disponibles.
+	 * - Llama a `loadUser()` para cargar los datos del usuario actual o seleccionado.
+	 */
 	public ngOnInit(): void {
 		this.loadRoles();
 		this.loadBranches();
@@ -70,12 +79,14 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga los roles disponibles desde el backend y los asigna a la propiedad `roles`.
+	 * Carga la lista de roles disponibles desde el backend.
 	 *
-	 * - Obtiene los roles mediante el servicio `userService`.
-	 * - Guarda los roles recibidos en la propiedad `roles`.
+	 * Descripción detallada:
+	 * - Realiza una llamada al servicio para obtener los roles.
+	 * - Asigna los roles recibidos a la propiedad `roles`.
 	 *
-	 * @returns {Promise<void>}
+	 * @returns {Promise<void>} No retorna valor; finaliza al completar la carga de roles.
+	 *
 	 * @async
 	 */
 	private async loadRoles(): Promise<void> {
@@ -87,12 +98,14 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga todas las sucursales desde el backend y las asigna a la propiedad `branches`.
+	 * Carga la lista de sedes disponibles desde el backend.
 	 *
-	 * - Realiza la llamada al servicio `branchService`.
-	 * - Extrae los datos desde la respuesta (`ApiResponse<Branch[]>`) y los asigna.
+	 * Descripción detallada:
+	 * - Realiza una llamada al servicio para obtener las sedes.
+	 * - Asigna las sedes recibidas a la propiedad `branches`.
 	 *
-	 * @returns {Promise<void>}
+	 * @returns {Promise<void>} No retorna valor; finaliza al completar la carga de sedes.
+	 *
 	 * @async
 	 */
 	private async loadBranches(): Promise<void> {
@@ -104,13 +117,15 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Carga los datos de un usuario desde el backend y los asigna al formulario `updateUserForm`.
+	 * Carga los datos de un usuario específico desde el backend y actualiza el formulario.
 	 *
-	 * - Obtiene el usuario por su ID usando `userService`.
-	 * - Asigna los datos al formulario mediante `patchValue`.
-	 * - Aplica las validaciones correspondientes con `setBranchValidation`.
+	 * Descripción detallada:
+	 * - Obtiene la información del usuario usando el `userId` actual.
+	 * - Actualiza los valores del formulario `updateUserForm` con los datos recibidos.
+	 * - Configura la validación del campo de sedes llamando a `setBranchValidation()`.
 	 *
-	 * @returns {Promise<void>}
+	 * @returns {Promise<void>} Promesa que se resuelve cuando los datos se cargan y el formulario se actualiza.
+	 *
 	 * @async
 	 */
 	private async loadUser(): Promise<void> {
@@ -134,14 +149,12 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Establece las validaciones para el campo `branchIds` del formulario `updateUserForm`
-	 * en función del rol del usuario.
+	 * Configura la validación del campo `branchIds` en el formulario de actualización de usuario.
 	 *
-	 * - Si el usuario es administrador de sucursal (`isBranchAdmin`), el campo se marca como requerido.
-	 * - Si no lo es, se eliminan sus validaciones y se limpia su valor.
-	 * - Luego se actualiza su estado de validación.
-	 *
-	 * @returns {void}
+	 * Descripción detallada:
+	 * - Si el rol es administrador de sede (`isBranchAdmin`), establece el campo como obligatorio.
+	 * - Si no, elimina las validaciones y limpia el valor del campo.
+	 * - Actualiza el estado y validez del campo tras aplicar los cambios.
 	 */
 	private setBranchValidation(): void {
 		const branchControl = this.updateUserForm.get('branchIds');
@@ -157,23 +170,26 @@ export class UpdateUserDialogComponent implements OnInit {
 	}
 
 	/**
-	 * Retorna `true` si el rol actual seleccionado en el formulario es `branch_admin`.
-	 * Útil para condiciones en plantillas y validaciones reactivas.
+	 * Indica si el rol seleccionado en el formulario de actualización es administrador de sede.
+	 *
+	 * Descripción detallada:
+	 * - Verifica si el valor del campo `role` en el formulario `updateUserForm` es `'branch_admin'`.
+	 *
+	 * @returns {boolean} `true` si el rol es `branch_admin`, `false` en caso contrario.
 	 */
 	protected get isBranchAdmin(): boolean {
 		return this.updateUserForm.get('role')?.value === 'branch_admin';
 	}
 
 	/**
-	 * Maneja el envío del formulario de actualización de usuario.
+	 * Procesa el envío del formulario para actualizar un usuario existente.
 	 *
-	 * - Valida todos los controles del formulario.
-	 * - Si el formulario es inválido, marca todos los campos como tocados para mostrar errores.
-	 * - Construye un objeto `UpdateUserDto` con los datos ingresados.
-	 * - Convierte `password` vacío en omitido y `photo` vacío en `null` para evitar sobrescribir datos.
-	 * - Cierra el diálogo retornando el DTO al componente padre.
-	 *
-	 * @returns {void}
+	 * Descripción detallada:
+	 * - Valida el formulario y marca todos los controles como tocados si hay errores para mostrarlos.
+	 * - Construye un objeto `UpdateUserDto` con los valores del formulario.
+	 * - Incluye la contraseña solo si fue ingresada y no está vacía.
+	 * - Si la foto está vacía o solo espacios, la asigna como `null`.
+	 * - Cierra el diálogo enviando el objeto actualizado como resultado.
 	 */
 	protected onSubmit(): void {
 		// Mostrar errores de controles
