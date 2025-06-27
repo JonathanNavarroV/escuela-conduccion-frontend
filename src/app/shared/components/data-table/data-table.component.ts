@@ -35,66 +35,39 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 export class DataTableComponent<T extends { id: string }>
 	implements AfterViewInit
 {
-	/**
-	 * Placeholder opcional para el campo de búsqueda.
-	 */
+	/** Placeholder opcional para el campo de búsqueda. */
 	@Input() public searchPlaceholder?: string;
 
-	/**
-	 * Template opcional para mostrar acciones personalizadas en la cabecera, al lado del buscador.
-	 */
+	/** Plantilla opcional para las acciones del encabezado. */
 	@Input() public headerActionsTemplate?: TemplateRef<unknown>;
 
-	/**
-	 * Fuente de datos que será usada por la tabla.
-	 * Debe ser una instancia de MatTableDataSource.
-	 */
+	/** Fuente de datos para la tabla, con el tipo genérico `T`. */
 	@Input() public dataSource: MatTableDataSource<T> =
 		new MatTableDataSource<T>();
 
-	/**
-	 * Lista de definiciones de columnas.
-	 * Cada columna debe tener al menos un identificador `def` y un encabezado `header`.
-	 */
+	/** Configuración de columnas para la tabla, con definición y encabezado. */
 	@Input() public columns: { def: string; header: string }[] = [];
 
-	/**
-	 * Lista de columnas que serán mostradas en el orden definido.
-	 * Cada elemento debe coincidir con el `def` de alguna columna.
-	 */
+	/** Lista de columnas que se mostrarán en la tabla, en orden. */
 	@Input() public displayedColumns: string[] = [];
 
-	/**
-	 * Diccionario de templates personalizados por columna.
-	 * La clave es el `def` de la columna, y el valor un TemplateRef.
-	 */
+	/** Plantillas personalizadas para distintas partes de la tabla, indexadas por clave. */
 	@Input() public customTemplates: Record<string, TemplateRef<unknown>> = {};
 
-	/**
-	 * Indica si la tabla está actualmente cargando datos.
-	 *
-	 * Esta bandera se utiliza para mostrar u ocultar un overlay de carga sobre la tabla
-	 * mientras se realiza una petición al backend.
-	 */
+	/** Indica si la tabla está en estado de carga para mostrar un spinner o indicador. */
 	@Input() public isLoading = false;
 
-	/**
-	 * Evento que se emite cada vez que cambia el valor del campo de búsqueda.
-	 * El string emitido representa el texto ingresado.
-	 */
+	/** Evento que emite el término de búsqueda cuando cambia el filtro. */
 	@Output() private searchChanged = new EventEmitter<string>();
 
-	/**
-	 * Referencia al componente de paginación de Angular Material.
-	 * Se vincula al datasource en `ngAfterViewInit`.
-	 */
+	/** Referencia al paginador de la tabla para controlar la paginación. */
 	@ViewChild(MatPaginator) private paginator?: MatPaginator;
 
 	/**
-	 * Se ejecuta después de que la vista del componente ha sido inicializada.
-	 * Asocia el paginador de Angular Material al dataSource de la tabla para habilitar la paginación.
+	 * Se ejecuta después de inicializar las vistas hijas.
 	 *
-	 * @returns {void} No retorna ningún valor.
+	 * Descripción detallada:
+	 * - Asocia el paginador (`MatPaginator`) a la fuente de datos de la tabla si está disponible.
 	 */
 	public ngAfterViewInit(): void {
 		if (this.paginator) {
@@ -103,11 +76,9 @@ export class DataTableComponent<T extends { id: string }>
 	}
 
 	/**
-	 * Captura el evento del input de búsqueda y emite el valor ingresado
-	 * a través del Output `searchChanged`.
+	 * Maneja el cambio en el campo de búsqueda y emite el nuevo término.
 	 *
-	 * @param {Event} event Evento de entrada proveniente del campo de búsqueda.
-	 * @returns {void} No retorna ningún valor.
+	 * @param {Event} event - Evento de entrada del campo de búsqueda.
 	 */
 	protected onSearchChanged(event: Event): void {
 		const value = (event.target as HTMLInputElement).value;
@@ -115,12 +86,11 @@ export class DataTableComponent<T extends { id: string }>
 	}
 
 	/**
-	 * Función trackBy para optimizar el renderizado de filas en la tabla.
-	 * Utiliza la propiedad `id` de cada elemento para identificarlo de forma única.
+	 * Función para optimizar el seguimiento de elementos en *ngFor por su ID.
 	 *
-	 * @param {number} _index - Índice del elemento en la lista.
-	 * @param {T} item - Elemento actual de la lista.
-	 * @returns {string} El identificador único del elemento (propiedad `id`).
+	 * @param {number} _index - Índice del elemento en la lista (no usado).
+	 * @param {T} item - Elemento actual del tipo genérico `T`.
+	 * @returns {string} El ID único del elemento para mejorar el rendimiento del renderizado.
 	 */
 	public trackById(_index: number, item: T): string {
 		return item.id;
