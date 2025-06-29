@@ -65,8 +65,8 @@ export class CreateBranchDialogComponent implements OnInit {
 			mobile: ['', [Validators.required, Validators.maxLength(30)]],
 			address: ['', [Validators.required, Validators.maxLength(255)]],
 			region: [''],
-			province: [{ value: '', disabled: true }],
-			district: [{ value: '', disabled: true }],
+			province: [{ value: '', disabled: true }, [Validators.required]],
+			district: [{ value: '', disabled: true }, [Validators.required]],
 		});
 	}
 
@@ -89,7 +89,7 @@ export class CreateBranchDialogComponent implements OnInit {
 	 * Descripción detallada:
 	 * - Carga los niveles de localización (región, provincia, distrito).
 	 * - Asigna las etiquetas correspondientes según el nivel.
-	 * - Aplica validadores de requerimiento según los niveles existentes.
+	 * - Aplica validador de requerimiento en región según lo requiera el nivel existente.
 	 * - Carga regiones o provincias dependiendo del caso.
 	 *
 	 * @returns {Promise<void>} Promesa que se resuelve al completar la configuración.
@@ -115,7 +115,6 @@ export class CreateBranchDialogComponent implements OnInit {
 			this.loadRegions();
 		}
 		if (this.provinceLevel) {
-			provinceControl?.setValidators([Validators.required]);
 			if (!this.regionLevel) {
 				this.loadProvinces();
 				provinceControl?.enable();
@@ -133,12 +132,15 @@ export class CreateBranchDialogComponent implements OnInit {
 	private setupRegionListener(): void {
 		const regionControl = this.createBranchForm.get('region');
 		const provinceControl = this.createBranchForm.get('province');
+		const districtControl = this.createBranchForm.get('district');
 
 		regionControl?.valueChanges.subscribe((regionId) => {
 			if (regionControl?.value) {
 				this.loadProvinces(regionId);
 				provinceControl?.reset();
 				provinceControl?.enable();
+				districtControl?.reset();
+				districtControl?.enable();
 			}
 		});
 	}
