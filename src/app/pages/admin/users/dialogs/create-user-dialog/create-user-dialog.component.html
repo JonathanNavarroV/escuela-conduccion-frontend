@@ -69,10 +69,6 @@
 					<mat-error *ngIf="createUserForm.get('email')?.hasError('required')"
 						>Campo requerido</mat-error
 					>
-					<mat-error
-						*ngIf="createUserForm.get('email')?.hasError('strictEmail')"
-						>Email inválido</mat-error
-					>
 					<mat-error *ngIf="createUserForm.get('email')?.hasError('maxlength')"
 						>Máximo
 						{{
@@ -80,6 +76,10 @@
 						}}
 						caracteres permitidos
 					</mat-error>
+					<mat-error
+						*ngIf="createUserForm.get('email')?.hasError('strictEmail')"
+						>Email inválido</mat-error
+					>
 				</mat-form-field>
 			</div>
 
