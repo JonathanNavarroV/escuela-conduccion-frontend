@@ -1,3 +1,5 @@
+import { District } from '../locations/district.model';
+
 export interface Branch {
 	id: string;
 	name: string;
@@ -5,5 +7,5 @@ export interface Branch {
 	phone: string | null;
 	mobile: string;
 	address: string;
-	districtId: string;
+	district: District;
 }

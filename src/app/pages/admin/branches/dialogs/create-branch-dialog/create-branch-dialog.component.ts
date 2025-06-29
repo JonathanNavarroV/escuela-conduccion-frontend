@@ -127,7 +127,7 @@ export class CreateBranchDialogComponent implements OnInit {
 	 *
 	 * Descripción detallada:
 	 * - Al seleccionar una región, carga las provincias correspondientes.
-	 * - Reinicia y habilita el campo `province`.
+	 * - Reinicia y habilita los campos `province` y `district`.
 	 */
 	private setupRegionListener(): void {
 		const regionControl = this.createBranchForm.get('region');
