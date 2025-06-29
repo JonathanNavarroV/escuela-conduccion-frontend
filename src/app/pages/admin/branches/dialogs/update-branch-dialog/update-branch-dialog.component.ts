@@ -63,6 +63,8 @@ export class UpdateBranchDialogComponent implements OnInit {
 	protected provinces?: Province[];
 	protected districts?: District[];
 
+	private isInitializing = true;
+
 	public constructor() {
 		this.updateBranchForm = this.formBuilder.group({
 			name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -88,25 +90,26 @@ export class UpdateBranchDialogComponent implements OnInit {
 	 * - Establece los listeners para reaccionar a cambios en región y provincia.
 	 */
 	public ngOnInit(): void {
-		this.configureLocationField();
-		this.loadBranch();
+		this.initializeFormFields();
 		this.setupRegionListener();
 		this.setupProvinceListener();
 	}
 
 	/**
-	 * Configura dinámicamente los campos de ubicación del formulario de actualización de sede.
+	 * Inicializa los campos del formulario de actualización de sede.
 	 *
 	 * Descripción detallada:
 	 * - Carga los niveles de localización disponibles (región, provincia, distrito).
-	 * - Asigna las etiquetas correspondientes a cada nivel según la respuesta del backend.
-	 * - Si no existe nivel de región, se eliminan sus validadores del formulario.
+	 * - Asigna dinámicamente las etiquetas para cada nivel según los datos del backend.
+	 * - Si no existe el nivel de región, elimina sus validadores del formulario.
+	 * - Carga los datos de la sede actual y actualiza el formulario con sus valores.
+	 * - Marca el proceso de inicialización como finalizado al establecer `isInitializing` en `false`.
 	 *
-	 * @returns {Promise<void>} Promesa que se resuelve al completar la configuración.
+	 * @returns {Promise<void>} Promesa que se resuelve una vez completada toda la inicialización del formulario.
 	 *
 	 * @async
 	 */
-	private async configureLocationField(): Promise<void> {
+	private async initializeFormFields(): Promise<void> {
 		const locationLevels = await this.loadLocationLevels();
 
 		const regionControl = this.updateBranchForm.get('region');
@@ -122,15 +125,21 @@ export class UpdateBranchDialogComponent implements OnInit {
 		if (!this.regionLevel) {
 			regionControl?.clearValidators();
 		}
+
+		// Una vez configurados los niveles, se carga la información de la sede para rellenar el formulario
+		await this.loadBranch();
+
+		this.isInitializing = false;
 	}
 
 	/**
-	 * Carga los datos de una sede específica desde el backend y actualiza el formulario.
+	 * Carga los datos de una sede específica desde el backend y actualiza el formulario con su información.
 	 *
 	 * Descripción detallada:
 	 * - Obtiene la información completa de la sede utilizando el `branchId`.
-	 * - Si hay niveles de localización definidos (región, provincia, distrito), se cargan según corresponda.
-	 * - Actualiza los valores del formulario `updateBranchForm` con los datos recibidos.
+	 * - Si existen niveles de localización definidos (región, provincia, distrito), los carga dinámicamente.
+	 * - Las regiones, provincias y distritos se precargan en base a los datos del distrito de la sede.
+	 * - Finalmente, se rellenan los campos del formulario con los datos recuperados.
 	 *
 	 * @returns {Promise<void>} Promesa que se resuelve al completar la carga y actualización del formulario.
 	 *
@@ -143,14 +152,14 @@ export class UpdateBranchDialogComponent implements OnInit {
 
 		const branch = apiResponse.data;
 
-		if (branch.district.province?.region) {
-			this.loadRegions();
-			this.loadProvinces(branch.district.province?.region.id);
+		if (this.regionLevel && branch.district.province?.region) {
+			await this.loadRegions();
+			await this.loadProvinces(branch.district.province?.region.id);
 		} else {
-			this.loadProvinces();
+			await this.loadProvinces();
 		}
 		if (branch.district.province) {
-			this.loadDistricts(branch.district.province.id);
+			await this.loadDistricts(branch.district.province.id);
 		}
 
 		this.updateBranchForm.patchValue({
@@ -169,10 +178,13 @@ export class UpdateBranchDialogComponent implements OnInit {
 	 * Configura el listener del campo `region` para reaccionar a los cambios de valor.
 	 *
 	 * Descripción detallada:
+	 *  * - Se omite la configuración si el componente está en proceso de inicialización (`isInitializing = true`).
 	 * - Al seleccionar una región, carga las provincias correspondientes.
 	 * - Reinicia y habilita los campos `province` y `district`.
 	 */
 	private setupRegionListener(): void {
+		if (this.isInitializing) return;
+
 		const regionControl = this.updateBranchForm.get('region');
 		const provinceControl = this.updateBranchForm.get('province');
 		const districtControl = this.updateBranchForm.get('district');
@@ -192,10 +204,13 @@ export class UpdateBranchDialogComponent implements OnInit {
 	 * Configura el listener del campo `province` para reaccionar a los cambios de valor.
 	 *
 	 * Descripción detallada:
+	 *  * - Se omite la configuración si el componente está en proceso de inicialización (`isInitializing = true`).
 	 * - Al seleccionar una provincia, carga los distritos correspondientes.
 	 * - Reinicia y habilita el campo `district`.
 	 */
 	private setupProvinceListener(): void {
+		if (this.isInitializing) return;
+
 		const provinceControl = this.updateBranchForm.get('province');
 		const districtControl = this.updateBranchForm.get('district');
 
