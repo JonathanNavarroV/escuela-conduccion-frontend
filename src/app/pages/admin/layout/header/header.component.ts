@@ -12,20 +12,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 	styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-	/**
-	 *	Indica si el sidenav está colapsado.
-	 */
+	/**	Indica si el sidenav está colapsado. */
 	@Input() public sidenavCollapsed!: Signal<boolean>;
 
-	/**
-	 * Evento emitido cuando el usuario hace click en el botón para colapsar/expandir el sidenav.
-	 */
+	/** Evento emitido cuando el usuario hace click en el botón para colapsar/expandir el sidenav. */
 	@Output() private sidenavToggle = new EventEmitter<void>();
 
 	/**
-	 * Maneja el click del botón del menú
+	 * Emite un evento para notificar el cambio de estado del `sidenav`.
 	 *
-	 * Emite un evento para indicar que se desea alternar el estado del sidenav.
+	 * Descripción detallada:
+	 * - Utiliza `sidenavToggle.emit()` para comunicar a componentes padres que se debe alternar el menú lateral.
 	 */
 	protected onToggleSidenav(): void {
 		this.sidenavToggle.emit();

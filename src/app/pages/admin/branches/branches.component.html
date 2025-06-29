@@ -1,53 +1,43 @@
 <div class="d-flex flex-column gap-4 align-items-center">
 	<!-- Header -->
 	<div class="w-100">
-		<h2>Usuarios</h2>
+		<h2>Sedes</h2>
 	</div>
 
 	<!-- Contenido -->
-	<div class="users-content w-100">
+	<div class="branches-content w-100">
 		<app-data-table
 			[searchPlaceholder]="'Buscar por nombre'"
-			[headerActionsTemplate]="actionsHeaderTemplate"
-			[dataSource]="usersDataSource"
+			[headerActionsTemplate]="actionHeaderTemplate"
+			[dataSource]="branchesDataSource"
 			[columns]="[
 				{
-					def: 'user',
-					header: 'Usuario',
+					def: 'name',
+					header: 'Sede',
 				},
 				{
 					def: 'email',
 					header: 'Email',
 				},
 				{
-					def: 'role',
-					header: 'Rol',
+					def: 'address',
+					header: 'Dirección',
 				},
 				{
 					def: 'actions',
 					header: '',
 				},
 			]"
-			[displayedColumns]="['user', 'email', 'role', 'actions']"
-			[customTemplates]="{ user: userTemplate, actions: actionsTemplate }"
+			[displayedColumns]="['name', 'email', 'address', 'actions']"
+			[customTemplates]="{ actions: actionsTemplate }"
 			[isLoading]="isLoadingDataTable"
 			(searchChanged)="onSearchChanged($event)"
 		>
 			<!-- Acciones de cabecera -->
-			<ng-template #actionsHeaderTemplate>
-				<button mat-icon-button (click)="openCreateUserDialog()">
-					<mat-icon>person_add</mat-icon>
+			<ng-template #actionHeaderTemplate>
+				<button mat-icon-button (click)="openCreateBranchDialog()">
+					<mat-icon>add_business</mat-icon>
 				</button>
-			</ng-template>
-
-			<!-- Usuario -->
-			<ng-template #userTemplate let-user>
-				<img
-					class="user-photo"
-					[src]="user.photo || defaultUserImage"
-					alt="User photo"
-				/>
-				{{ user.firstName }} {{ user.lastNameFather }} {{ user.lastNameMother }}
 			</ng-template>
 
 			<!-- Acciones -->
@@ -56,7 +46,7 @@
 					<mat-icon>more_horiz</mat-icon>
 				</button>
 				<mat-menu #menu="matMenu">
-					<button mat-menu-item (click)="openUpdateUserDialog(actions.id)">
+					<button mat-menu-item (click)="openUpdateBranchDialog(actions.id)">
 						<mat-icon>edit</mat-icon>
 						<span>Editar</span>
 					</button>

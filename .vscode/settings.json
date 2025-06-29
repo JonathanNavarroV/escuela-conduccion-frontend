@@ -1,0 +1,17 @@
+{
+	"files.exclude": {
+		"**/*.spec.ts": true
+	},
+	"emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"match": ".*",
+				"cmd": "npm run format"
+			}
+		]
+	},
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "always"
+	},
+	"eslint.validate": ["typescript", "html"]
+}

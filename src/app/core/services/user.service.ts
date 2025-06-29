@@ -24,20 +24,22 @@ export class UserService {
 	/**
 	 * Busca usuarios cuyo nombre completo coincide parcial o totalmente con el término dado.
 	 *
-	 * @param {string} fullName - Texto para buscar coincidencias en el nombre completo.
-	 * @returns {Observable<ApiResponse<User[]>>} Observable que emite la respuesta con la lista de usuarios encontrados.
+	 * @param {string} searchTerm - Texto para buscar coincidencias en el nombre.
+	 * @returns {Observable<ApiResponse<User[]>>} Observable que emite la respuesta con la lista de sedes encontradas.
 	 */
-	public getUsersByFullName(fullName: string): Observable<ApiResponse<User[]>> {
+	public getUsersBySearchTerm(
+		searchTerm: string,
+	): Observable<ApiResponse<User[]>> {
 		return this.http.get<ApiResponse<User[]>>(
 			`${environment.apiUrl}/users/search`,
 			{
-				params: { fullName },
+				params: { searchTerm },
 			},
 		);
 	}
 
 	/**
-	 * Busca usuarios su ID.
+	 * Busca usuarios por su ID.
 	 *
 	 * @param {string} userId - Identificador para buscar coincidencias de usuario.
 	 * @returns {Observable<ApiResponse<User>>} Observable que emite la respuesta con el usuario encontrado.
@@ -92,14 +94,27 @@ export class UserService {
 	}
 
 	/**
-	 * Elimina un usuario por su ID.
+	 * Activar un alumno por su ID.
 	 *
-	 * @param userId - ID del usuario que se desea eliminar.
-	 * @returns Un `Observable` que emite la respuesta del servidor al eliminar el usuario.
+	 * @param userId - ID del usuario que se desea activar.
+	 * @returns  Un `Observable` que emite la respuesta del servidor al activar el usuario.
 	 */
-	public deleteUser(userId: string): Observable<ApiResponse<unknown>> {
-		return this.http.delete<ApiResponse<unknown>>(
-			`${environment.apiUrl}/users/${userId}`,
+	public activateUser(userId: string): Observable<ApiResponse<User>> {
+		return this.http.patch<ApiResponse<User>>(
+			`${environment.apiUrl}/users/${userId}/activate`,
+			null,
+		);
+	}
+	/**
+	 * Desactivar un alumno por su ID.
+	 *
+	 * @param userId - ID del usuario que se desea desactivar.
+	 * @returns  Un `Observable` que emite la respuesta del servidor al desactivar el usuario.
+	 */
+	public deactivateUser(userId: string): Observable<ApiResponse<User>> {
+		return this.http.patch<ApiResponse<User>>(
+			`${environment.apiUrl}/users/${userId}/deactivate`,
+			null,
 		);
 	}
 }

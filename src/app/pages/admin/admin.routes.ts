@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { BranchesComponent } from './branches/branches.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
 import { UsersComponent } from './users/users.component';
@@ -20,6 +21,10 @@ export const adminRoutes: Routes = [
 			{
 				path: 'users',
 				component: UsersComponent,
+			},
+			{
+				path: 'branches',
+				component: BranchesComponent,
 			},
 		],
 	},

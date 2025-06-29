@@ -21,17 +21,25 @@ export class AdminLayoutComponent {
 	protected sidenavCollapsed: WritableSignal<boolean> = signal(false);
 
 	/**
-	 * Ancho dinámico del sidenav, calculado en funcón del estado `sidenavCollapsed`.
-	 * Si está colapsado, el ancho será 65px; de lo contrario, 250px.
+	 * Ancho actual del menú lateral (`sidenav`) en función de su estado.
+	 *
+	 * Descripción detallada:
+	 * - Retorna el ancho del `sidenav` según si está colapsado o expandido.
+	 * - Si está colapsado, devuelve `'65px'`; si está expandido, `'250px'`.
+	 * - Se actualiza automáticamente al cambiar el estado de `sidenavCollapsed`.
+	 *
+	 * @returns {Signal<'65px' | '250px'>} Señal reactiva con el valor actual del ancho del menú lateral.
 	 */
 	protected sidenavWidth: Signal<'65px' | '250px'> = computed(() =>
 		this.sidenavCollapsed() ? '65px' : '250px',
 	);
 
 	/**
-	 * Alterna el estado del sidenav entre colapsado y expandido.
+	 * Alterna el estado del menú lateral (`sidenav`) entre colapsado y expandido.
 	 *
-	 * Este método invierte el valor actual de `sidenavCollapsed`, lo que a su vez actualiza automáticamente el ancho calculado `sidenavWidth`.
+	 * Descripción detallada:
+	 * - Cambia el valor de `sidenavCollapsed` al valor opuesto.
+	 * - Altera visualmente el ancho del menú lateral mediante señales reactivas.
 	 */
 	protected toggleSidenav() {
 		this.sidenavCollapsed.set(!this.sidenavCollapsed());
