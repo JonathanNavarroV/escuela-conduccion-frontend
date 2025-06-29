@@ -30,6 +30,10 @@
 						}}
 						caracteres permitidos
 					</mat-error>
+					<mat-error
+						*ngIf="updateBranchForm.get('email')?.hasError('strictEmail')"
+						>Email inválido</mat-error
+					>
 				</mat-form-field>
 			</div>
 

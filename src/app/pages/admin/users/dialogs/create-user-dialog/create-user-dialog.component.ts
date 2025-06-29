@@ -46,11 +46,21 @@ export class CreateUserDialogComponent implements OnInit {
 
 	public constructor() {
 		this.createUserForm = this.formBuilder.group({
-			firstName: ['', [Validators.required]],
-			lastNameFather: ['', [Validators.required]],
-			lastNameMother: ['', [Validators.required]],
-			email: ['', [Validators.required, strictEmailValidator]],
-			password: ['', [Validators.required, Validators.minLength(6)]],
+			firstName: ['', [Validators.required, Validators.maxLength(100)]],
+			lastNameFather: ['', [Validators.required, Validators.maxLength(50)]],
+			lastNameMother: ['', [Validators.required, Validators.maxLength(50)]],
+			email: [
+				'',
+				[Validators.required, Validators.maxLength(255), strictEmailValidator],
+			],
+			password: [
+				'',
+				[
+					Validators.required,
+					Validators.maxLength(255),
+					Validators.minLength(6),
+				],
+			],
 			photo: [''],
 			role: ['', [Validators.required]],
 			branchIds: ['', [Validators.required]],

@@ -28,6 +28,15 @@
 						>Campo requerido</mat-error
 					>
 					<mat-error
+						*ngIf="createBranchForm.get('email')?.hasError('maxlength')"
+						>Máximo
+						{{
+							createBranchForm.get("email")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
+					<mat-error
 						*ngIf="createBranchForm.get('email')?.hasError('strictEmail')"
 						>Email inválido</mat-error
 					>
@@ -38,6 +47,15 @@
 				<mat-form-field class="w-100">
 					<mat-label>Teléfono fijo</mat-label>
 					<input matInput formControlName="phone" type="text" />
+					<mat-error
+						*ngIf="createBranchForm.get('phone')?.hasError('maxlength')"
+						>Máximo
+						{{
+							createBranchForm.get("phone")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 				</mat-form-field>
 			</div>
 
@@ -49,6 +67,15 @@
 						*ngIf="createBranchForm.get('mobile')?.hasError('required')"
 						>Campo requerido</mat-error
 					>
+					<mat-error
+						*ngIf="createBranchForm.get('mobile')?.hasError('maxlength')"
+						>Máximo
+						{{
+							createBranchForm.get("mobile")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 				</mat-form-field>
 			</div>
 
@@ -60,6 +87,15 @@
 						*ngIf="createBranchForm.get('address')?.hasError('required')"
 						>Campo requerido</mat-error
 					>
+					<mat-error
+						*ngIf="createBranchForm.get('address')?.hasError('maxlength')"
+						>Máximo
+						{{
+							createBranchForm.get("address")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 				</mat-form-field>
 			</div>
 

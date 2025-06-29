@@ -53,11 +53,14 @@ export class UpdateUserDialogComponent implements OnInit {
 
 	public constructor() {
 		this.updateUserForm = this.formBuilder.group({
-			firstName: ['', [Validators.required]],
-			lastNameFather: ['', [Validators.required]],
-			lastNameMother: ['', [Validators.required]],
-			email: ['', [Validators.required, strictEmailValidator]],
-			password: ['', [Validators.minLength(6)]],
+			firstName: ['', [Validators.required, Validators.maxLength(100)]],
+			lastNameFather: ['', [Validators.required, Validators.maxLength(50)]],
+			lastNameMother: ['', [Validators.required, Validators.maxLength(50)]],
+			email: [
+				'',
+				[Validators.required, Validators.maxLength(255), strictEmailValidator],
+			],
+			password: ['', [Validators.maxLength(255), Validators.minLength(6)]],
 			photo: [''],
 			role: [{ value: '', disabled: true }],
 			branchIds: ['', [Validators.required]],

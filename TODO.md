@@ -8,6 +8,6 @@
 - [x] Armar dialog de creación de sedes
 - [x] Aplicar switchMap a los buscadores de las tablas
 - [x] Armar dialog de modificación de sedes
-- [ ] Aplicar validaciones de longitud de caracteres a la creación y actualización de usuarios y sedes
+- [x] Aplicar validaciones de longitud de caracteres a la creación y actualización de usuarios y sedes
 - [ ] Agregar entorno `preproduction`
 - [ ] Aplicar CI/CD (integración continua) utilizando el entorno `preproduction`

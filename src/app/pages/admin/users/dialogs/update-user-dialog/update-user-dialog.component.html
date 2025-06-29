@@ -6,6 +6,19 @@
 				<mat-form-field class="w-100">
 					<mat-label>Nombre</mat-label>
 					<input matInput formControlName="firstName" type="text" />
+					<mat-error
+						*ngIf="updateUserForm.get('firstName')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+					<mat-error
+						*ngIf="updateUserForm.get('firstName')?.hasError('maxlength')"
+						>Máximo
+						{{
+							updateUserForm.get("firstName")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 				</mat-form-field>
 			</div>
 
@@ -13,6 +26,19 @@
 				<mat-form-field class="w-100">
 					<mat-label>Apellido paterno</mat-label>
 					<input matInput formControlName="lastNameFather" type="text" />
+					<mat-error
+						*ngIf="updateUserForm.get('lastNameFather')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+					<mat-error
+						*ngIf="updateUserForm.get('lastNameFather')?.hasError('maxlength')"
+						>Máximo
+						{{
+							updateUserForm.get("lastNameFather")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 				</mat-form-field>
 			</div>
 
@@ -20,6 +46,19 @@
 				<mat-form-field class="w-100">
 					<mat-label>Apellido materno</mat-label>
 					<input matInput formControlName="lastNameMother" type="text" />
+					<mat-error
+						*ngIf="updateUserForm.get('lastNameMother')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+					<mat-error
+						*ngIf="updateUserForm.get('lastNameMother')?.hasError('maxlength')"
+						>Máximo
+						{{
+							updateUserForm.get("lastNameMother")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 				</mat-form-field>
 			</div>
 
@@ -27,6 +66,16 @@
 				<mat-form-field class="w-100">
 					<mat-label>Email</mat-label>
 					<input matInput formControlName="email" type="email" />
+					<mat-error *ngIf="updateUserForm.get('email')?.hasError('required')"
+						>Campo requerido</mat-error
+					>
+					<mat-error *ngIf="updateUserForm.get('email')?.hasError('maxlength')"
+						>Máximo
+						{{
+							updateUserForm.get("email")?.errors?.["maxlength"]?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 					<mat-error
 						*ngIf="updateUserForm.get('email')?.hasError('strictEmail')"
 						>Email inválido</mat-error
@@ -38,6 +87,15 @@
 				<mat-form-field class="w-100">
 					<mat-label>Contraseña</mat-label>
 					<input matInput formControlName="password" type="password" />
+					<mat-error
+						*ngIf="updateUserForm.get('password')?.hasError('maxlength')"
+						>Máximo
+						{{
+							updateUserForm.get("password")?.errors?.["maxlength"]
+								?.requiredLength
+						}}
+						caracteres permitidos
+					</mat-error>
 					<mat-error
 						*ngIf="updateUserForm.get('password')?.hasError('minlength')"
 						>Debe tener al menos
